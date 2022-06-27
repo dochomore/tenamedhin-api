@@ -8,6 +8,7 @@ import { ConfigModule } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { CreditModule } from './credit/credit.module';
 import { Kebele } from './kebele/entities/kebele.entity';
+import { WoredaModule } from './woreda/woreda.module';
 
 @Module({
   imports: [
@@ -26,6 +27,7 @@ import { Kebele } from './kebele/entities/kebele.entity';
       synchronize: true,
     }),
     CreditModule,
+    WoredaModule,
   ],
   controllers: [AppController],
   providers: [AppService],
