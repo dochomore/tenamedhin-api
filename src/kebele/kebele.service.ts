@@ -21,8 +21,8 @@ export class KebeleService {
     return `This action returns all kebele`;
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} kebele`;
+  findOne(id: string) {
+    return this.kebeleRepository.findOneBy({ kebleId: id });
   }
 
   update(id: number, updateKebeleDto: UpdateKebeleDto) {

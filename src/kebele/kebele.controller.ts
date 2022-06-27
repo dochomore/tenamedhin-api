@@ -27,7 +27,7 @@ export class KebeleController {
 
   @Get(':id')
   findOne(@Param('id') id: string) {
-    return this.kebeleService.findOne(+id);
+    return this.kebeleService.findOne(id);
   }
 
   @Patch(':id')
