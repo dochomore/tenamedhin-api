@@ -29,7 +29,7 @@ export class KebeleService {
     return this.kebeleRepository.update(id, { ...updateKebeleDto });
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} kebele`;
+  async remove(id: number) {
+    return await this.kebeleRepository.delete(id);
   }
 }
