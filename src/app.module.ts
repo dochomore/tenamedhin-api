@@ -7,6 +7,7 @@ import { HospitalModule } from './hospital/hospital.module';
 import { ConfigModule } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { CreditModule } from './credit/credit.module';
+import { Kebele } from './kebele/entities/kebele.entity';
 
 @Module({
   imports: [
@@ -21,6 +22,8 @@ import { CreditModule } from './credit/credit.module';
       username: process.env.DATABASE_USERNAME,
       password: process.env.DATABASE_PASSWORD,
       database: process.env.DATABASE_NAME,
+      entities: [Kebele],
+      synchronize: true,
     }),
     CreditModule,
   ],

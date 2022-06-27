@@ -1,9 +1,17 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Patch,
+  Param,
+  Delete,
+} from '@nestjs/common';
 import { KebeleService } from './kebele.service';
 import { CreateKebeleDto } from './dto/create-kebele.dto';
 import { UpdateKebeleDto } from './dto/update-kebele.dto';
 
-@Controller('kebele')
+@Controller('kebeles')
 export class KebeleController {
   constructor(private readonly kebeleService: KebeleService) {}
 

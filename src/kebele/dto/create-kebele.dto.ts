@@ -1,1 +1,11 @@
-export class CreateKebeleDto {}
+import { IsNotEmpty, IsString } from 'class-validator';
+
+export class CreateKebeleDto {
+  @IsNotEmpty()
+  @IsString()
+  name: string;
+
+  @IsNotEmpty()
+  @IsString()
+  code: string;
+}
