@@ -37,6 +37,6 @@ export class KebeleController {
 
   @Delete(':id')
   remove(@Param('id') id: string) {
-    return this.kebeleService.remove(+id);
+    return this.kebeleService.remove(id);
   }
 }
