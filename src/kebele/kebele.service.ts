@@ -17,8 +17,8 @@ export class KebeleService {
     return await this.kebeleRepository.save(keble);
   }
 
-  findAll() {
-    return `This action returns all kebele`;
+  async findAll() {
+    return await this.kebeleRepository.find();
   }
 
   findOne(id: string) {
