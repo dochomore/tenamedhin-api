@@ -3,7 +3,7 @@ import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
 @Entity()
 export class Kebele {
   @PrimaryGeneratedColumn('uuid')
-  kebleId: string;
+  kebeleId: string;
 
   @Column()
   name: string;

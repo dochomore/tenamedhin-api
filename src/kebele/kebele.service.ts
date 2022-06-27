@@ -22,7 +22,7 @@ export class KebeleService {
   }
 
   findOne(id: string) {
-    return this.kebeleRepository.findOneBy({ kebleId: id });
+    return this.kebeleRepository.findOneBy({ kebeleId: id });
   }
 
   update(id: number, updateKebeleDto: UpdateKebeleDto) {
