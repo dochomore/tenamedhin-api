@@ -1,6 +1,10 @@
-import { Injectable } from '@nestjs/common';
+import {
+  Injectable,
+  InternalServerErrorException,
+  NotFoundException,
+} from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
+import { DeleteResult, Repository, UpdateResult } from 'typeorm';
 import { CreateKebeleDto } from './dto/create-kebele.dto';
 import { UpdateKebeleDto } from './dto/update-kebele.dto';
 import { Kebele } from './entities/kebele.entity';
@@ -13,23 +17,55 @@ export class KebeleService {
   ) {}
   async create(createKebeleDto: CreateKebeleDto) {
     const { name, code } = createKebeleDto;
-    const keble = this.kebeleRepository.create({ name: name, code: code });
-    return await this.kebeleRepository.save(keble);
+    try {
+      const keble = this.kebeleRepository.create({ name: name, code: code });
+      return await this.kebeleRepository.save(keble);
+    } catch (error) {
+      throw new InternalServerErrorException();
+    }
   }
 
   async findAll() {
-    return await this.kebeleRepository.find();
+    try {
+      return await this.kebeleRepository.find();
+    } catch (err) {
+      throw new InternalServerErrorException();
+    }
   }
 
-  findOne(id: string) {
-    return this.kebeleRepository.findOneBy({ kebeleId: id });
+  async findOne(id: string) {
+    try {
+      const result = await this.kebeleRepository.findOneBy({ kebeleId: id });
+      if (!result) {
+        throw new NotFoundException();
+      }
+      return result;
+    } catch (err) {
+      return new NotFoundException();
+    }
   }
 
-  update(id: number, updateKebeleDto: UpdateKebeleDto) {
-    return this.kebeleRepository.update(id, { ...updateKebeleDto });
+  async update(id: number, updateKebeleDto: UpdateKebeleDto) {
+    try {
+      const result: UpdateResult = await this.kebeleRepository.update(id, {
+        ...updateKebeleDto,
+      });
+      if (result.affected === 0) {
+        throw new NotFoundException();
+      }
+    } catch (error) {
+      return new NotFoundException();
+    }
   }
 
   async remove(id: string) {
-    return await this.kebeleRepository.delete(id);
+    try {
+      const result: DeleteResult = await this.kebeleRepository.delete(id);
+      if (result.affected === 0) {
+        throw new NotFoundException();
+      }
+    } catch (error) {
+      return new NotFoundException();
+    }
   }
 }
