@@ -5,7 +5,7 @@ export class Kebele {
   @PrimaryGeneratedColumn('uuid')
   kebeleId: string;
 
-  @Column()
+  @Column({ unique: true })
   name: string;
 
   @Column()

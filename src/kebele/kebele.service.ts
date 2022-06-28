@@ -1,4 +1,5 @@
 import {
+  BadRequestException,
   Injectable,
   InternalServerErrorException,
   NotFoundException,
@@ -21,7 +22,7 @@ export class KebeleService {
       const keble = this.kebeleRepository.create({ name: name, code: code });
       return await this.kebeleRepository.save(keble);
     } catch (error) {
-      throw new InternalServerErrorException();
+      throw new BadRequestException();
     }
   }
 
