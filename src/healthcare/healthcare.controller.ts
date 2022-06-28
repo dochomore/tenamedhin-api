@@ -1,9 +1,18 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Patch,
+  Param,
+  Delete,
+  ParseUUIDPipe,
+} from '@nestjs/common';
 import { HealthcareService } from './healthcare.service';
 import { CreateHealthcareDto } from './dto/create-healthcare.dto';
 import { UpdateHealthcareDto } from './dto/update-healthcare.dto';
 
-@Controller('healthcare')
+@Controller('healthcares')
 export class HealthcareController {
   constructor(private readonly healthcareService: HealthcareService) {}
 
@@ -18,17 +27,20 @@ export class HealthcareController {
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.healthcareService.findOne(+id);
+  findOne(@Param('id', new ParseUUIDPipe()) id: string) {
+    return this.healthcareService.findOne(id);
   }
 
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateHealthcareDto: UpdateHealthcareDto) {
+  update(
+    @Param('id', new ParseUUIDPipe()) id: string,
+    @Body() updateHealthcareDto: UpdateHealthcareDto,
+  ) {
     return this.healthcareService.update(+id, updateHealthcareDto);
   }
 
   @Delete(':id')
-  remove(@Param('id') id: string) {
+  remove(@Param('id', new ParseUUIDPipe()) id: string) {
     return this.healthcareService.remove(id);
   }
 }

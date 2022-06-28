@@ -25,16 +25,25 @@ export class HealthcareService {
       });
       return await this.healthcareRepo.save(healthcare);
     } catch (error) {
-      return new BadRequestException(error);
+      return new BadRequestException();
     }
   }
 
-  findAll() {
-    return `This action returns all healthcare`;
+  async findAll() {
+    try {
+      return await this.healthcareRepo.find();
+    } catch (error) {
+      return new BadRequestException();
+    }
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} healthcare`;
+  async findOne(id: string) {
+    try {
+      const result = this.healthcareRepo.findOneBy({ healthcareId: id });
+      if (!result) {
+        throw new NotFoundException();
+      }
+    } catch (error) {}
   }
 
   update(id: number, updateHealthcareDto: UpdateHealthcareDto) {
