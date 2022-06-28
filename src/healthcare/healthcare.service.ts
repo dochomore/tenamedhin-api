@@ -1,6 +1,11 @@
-import { BadRequestException, Injectable } from '@nestjs/common';
+import {
+  BadRequestException,
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
+import { NotFoundError } from 'rxjs';
+import { DeleteResult, Repository } from 'typeorm';
 import { CreateHealthcareDto } from './dto/create-healthcare.dto';
 import { UpdateHealthcareDto } from './dto/update-healthcare.dto';
 import { Healthcare } from './entities/healthcare.entity';
@@ -36,7 +41,15 @@ export class HealthcareService {
     return `This action updates a #${id} healthcare`;
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} healthcare`;
+  async remove(id: string) {
+    try {
+      const result: DeleteResult = await this.healthcareRepo.delete(id);
+      if (result.affected === 0) {
+        throw new NotFoundException();
+      }
+      return result;
+    } catch (error) {
+      return new NotFoundException();
+    }
   }
 }

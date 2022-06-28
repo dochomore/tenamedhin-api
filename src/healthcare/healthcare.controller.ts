@@ -29,6 +29,6 @@ export class HealthcareController {
 
   @Delete(':id')
   remove(@Param('id') id: string) {
-    return this.healthcareService.remove(+id);
+    return this.healthcareService.remove(id);
   }
 }
