@@ -6,6 +6,7 @@ import {
   Patch,
   Param,
   Delete,
+  ParseUUIDPipe,
 } from '@nestjs/common';
 import { HospitalService } from './hospital.service';
 import { CreateHospitalDto } from './dto/create-hospital.dto';
@@ -26,16 +27,16 @@ export class HospitalController {
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string) {
+  findOne(@Param('id', new ParseUUIDPipe()) id: string) {
     return this.hospitalService.findOne(id);
   }
 
   @Patch(':id')
   update(
-    @Param('id') id: string,
+    @Param('id', new ParseUUIDPipe()) id: string,
     @Body() updateHospitalDto: UpdateHospitalDto,
   ) {
-    return this.hospitalService.update(+id, updateHospitalDto);
+    return this.hospitalService.update(id, updateHospitalDto);
   }
 
   @Delete(':id')
