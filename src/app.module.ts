@@ -24,7 +24,7 @@ import { Hospital } from './hospital/entities/hospital.entity';
       username: process.env.DATABASE_USERNAME,
       password: process.env.DATABASE_PASSWORD,
       database: process.env.DATABASE_NAME,
-      entities: [Kebele, Hospital],
+      entities: [Kebele, Hospital, HealthcareModule],
       synchronize: true,
     }),
     CreditModule,
