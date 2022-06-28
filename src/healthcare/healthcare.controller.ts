@@ -36,7 +36,7 @@ export class HealthcareController {
     @Param('id', new ParseUUIDPipe()) id: string,
     @Body() updateHealthcareDto: UpdateHealthcareDto,
   ) {
-    return this.healthcareService.update(+id, updateHealthcareDto);
+    return this.healthcareService.update(id, updateHealthcareDto);
   }
 
   @Delete(':id')

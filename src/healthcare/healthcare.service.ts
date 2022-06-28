@@ -4,8 +4,7 @@ import {
   NotFoundException,
 } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { NotFoundError } from 'rxjs';
-import { DeleteResult, Repository } from 'typeorm';
+import { DeleteResult, Repository, UpdateResult } from 'typeorm';
 import { CreateHealthcareDto } from './dto/create-healthcare.dto';
 import { UpdateHealthcareDto } from './dto/update-healthcare.dto';
 import { Healthcare } from './entities/healthcare.entity';
@@ -46,8 +45,19 @@ export class HealthcareService {
     } catch (error) {}
   }
 
-  update(id: number, updateHealthcareDto: UpdateHealthcareDto) {
-    return `This action updates a #${id} healthcare`;
+  async update(id: string, updateHealthcareDto: UpdateHealthcareDto) {
+    try {
+      const { name, code } = updateHealthcareDto;
+      const result: UpdateResult = await this.healthcareRepo.update(id, {
+        name: name,
+        code: code,
+      });
+      if (result.affected === 0) {
+        throw new NotFoundException();
+      }
+    } catch (error) {
+      return new NotFoundException();
+    }
   }
 
   async remove(id: string) {
