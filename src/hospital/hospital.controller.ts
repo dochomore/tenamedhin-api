@@ -27,7 +27,7 @@ export class HospitalController {
 
   @Get(':id')
   findOne(@Param('id') id: string) {
-    return this.hospitalService.findOne(+id);
+    return this.hospitalService.findOne(id);
   }
 
   @Patch(':id')

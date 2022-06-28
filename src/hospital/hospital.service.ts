@@ -1,4 +1,8 @@
-import { BadRequestException, Injectable } from '@nestjs/common';
+import {
+  BadRequestException,
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { CreateHospitalDto } from './dto/create-hospital.dto';
@@ -32,8 +36,18 @@ export class HospitalService {
     }
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} hospital`;
+  async findOne(id: string) {
+    try {
+      const result = await this.hospitalRepository.findOneBy({
+        hospitalId: id,
+      });
+      if (!result) {
+        throw new NotFoundException();
+      }
+      return result;
+    } catch (error) {
+      return new NotFoundException();
+    }
   }
 
   update(id: number, updateHospitalDto: UpdateHospitalDto) {
