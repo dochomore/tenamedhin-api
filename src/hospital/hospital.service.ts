@@ -1,11 +1,27 @@
-import { Injectable } from '@nestjs/common';
+import { BadRequestException, Injectable } from '@nestjs/common';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Repository } from 'typeorm';
 import { CreateHospitalDto } from './dto/create-hospital.dto';
 import { UpdateHospitalDto } from './dto/update-hospital.dto';
+import { Hospital } from './entities/hospital.entity';
 
 @Injectable()
 export class HospitalService {
-  create(createHospitalDto: CreateHospitalDto) {
-    return 'This action adds a new hospital';
+  constructor(
+    @InjectRepository(Hospital)
+    private readonly hospitalRepository: Repository<Hospital>,
+  ) {}
+  async create(createHospitalDto: CreateHospitalDto) {
+    try {
+      const { name, code } = createHospitalDto;
+      const hospital = await this.hospitalRepository.create({
+        name: name,
+        code: code,
+      });
+      return await this.hospitalRepository.save(hospital);
+    } catch (error) {
+      throw new BadRequestException(error.message);
+    }
   }
 
   findAll() {

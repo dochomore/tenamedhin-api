@@ -9,6 +9,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { CreditModule } from './credit/credit.module';
 import { Kebele } from './kebele/entities/kebele.entity';
 import { WoredaModule } from './woreda/woreda.module';
+import { Hospital } from './hospital/entities/hospital.entity';
 
 @Module({
   imports: [
@@ -23,7 +24,7 @@ import { WoredaModule } from './woreda/woreda.module';
       username: process.env.DATABASE_USERNAME,
       password: process.env.DATABASE_PASSWORD,
       database: process.env.DATABASE_NAME,
-      entities: [Kebele],
+      entities: [Kebele, Hospital],
       synchronize: true,
     }),
     CreditModule,

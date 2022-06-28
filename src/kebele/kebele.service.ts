@@ -1,7 +1,6 @@
 import {
   BadRequestException,
   Injectable,
-  InternalServerErrorException,
   NotFoundException,
 } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
@@ -30,7 +29,7 @@ export class KebeleService {
     try {
       return await this.kebeleRepository.find();
     } catch (err) {
-      throw new InternalServerErrorException();
+      throw new BadRequestException();
     }
   }
 
