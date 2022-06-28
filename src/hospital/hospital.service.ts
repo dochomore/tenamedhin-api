@@ -4,7 +4,7 @@ import {
   NotFoundException,
 } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository, UpdateResult } from 'typeorm';
+import { DeleteResult, Repository, UpdateResult } from 'typeorm';
 import { CreateHospitalDto } from './dto/create-hospital.dto';
 import { UpdateHospitalDto } from './dto/update-hospital.dto';
 import { Hospital } from './entities/hospital.entity';
@@ -64,7 +64,15 @@ export class HospitalService {
     }
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} hospital`;
+  async remove(id: string) {
+    try {
+      const result: DeleteResult = await this.hospitalRepository.delete(id);
+      if (result.affected === 0) {
+        throw new NotFoundException();
+      }
+      return result;
+    } catch (error) {
+      return new NotFoundException();
+    }
   }
 }
