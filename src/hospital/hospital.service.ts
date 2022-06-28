@@ -25,7 +25,11 @@ export class HospitalService {
   }
 
   findAll() {
-    return `This action returns all hospital`;
+    try {
+      return this.hospitalRepository.find();
+    } catch (error) {
+      throw new BadRequestException();
+    }
   }
 
   findOne(id: number) {
