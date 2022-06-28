@@ -8,6 +8,6 @@ export class Kebele {
   @Column({ unique: true })
   name: string;
 
-  @Column()
+  @Column({ unique: true })
   code: string;
 }
