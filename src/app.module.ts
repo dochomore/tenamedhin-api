@@ -10,6 +10,7 @@ import { CreditModule } from './credit/credit.module';
 import { Kebele } from './kebele/entities/kebele.entity';
 import { WoredaModule } from './woreda/woreda.module';
 import { Hospital } from './hospital/entities/hospital.entity';
+import { Healthcare } from './healthcare/entities/healthcare.entity';
 
 @Module({
   imports: [
@@ -24,7 +25,7 @@ import { Hospital } from './hospital/entities/hospital.entity';
       username: process.env.DATABASE_USERNAME,
       password: process.env.DATABASE_PASSWORD,
       database: process.env.DATABASE_NAME,
-      entities: [Kebele, Hospital, HealthcareModule],
+      entities: [Kebele, Hospital, Healthcare],
       synchronize: true,
     }),
     CreditModule,
