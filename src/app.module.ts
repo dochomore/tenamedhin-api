@@ -12,6 +12,7 @@ import { WoredaModule } from './woreda/woreda.module';
 import { Hospital } from './hospital/entities/hospital.entity';
 import { Healthcare } from './healthcare/entities/healthcare.entity';
 import { Credit } from './credit/entities/credit.entity';
+import { MemberModule } from './member/member.module';
 
 @Module({
   imports: [
@@ -31,6 +32,7 @@ import { Credit } from './credit/entities/credit.entity';
     }),
     CreditModule,
     WoredaModule,
+    MemberModule,
   ],
   controllers: [AppController],
   providers: [AppService],
