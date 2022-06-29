@@ -1,4 +1,4 @@
-import { BadRequestException, Injectable } from '@nestjs/common';
+import { BadRequestException, Injectable, InternalServerErrorException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { CreateCreditDto } from './dto/create-credit.dto';
@@ -22,7 +22,11 @@ export class CreditService {
   }
 
   findAll() {
-    return `This action returns all credit`;
+    try {
+      return this.creditRepository.find();
+    } catch (error) {
+      return new InternalServerErrorException();
+    }
   }
 
   findOne(id: number) {
