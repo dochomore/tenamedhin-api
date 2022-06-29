@@ -1,11 +1,24 @@
-import { Injectable } from '@nestjs/common';
+import { BadRequestException, Injectable } from '@nestjs/common';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Repository } from 'typeorm';
 import { CreateCreditDto } from './dto/create-credit.dto';
 import { UpdateCreditDto } from './dto/update-credit.dto';
+import { Credit } from './entities/credit.entity';
 
 @Injectable()
 export class CreditService {
-  create(createCreditDto: CreateCreditDto) {
-    return 'This action adds a new credit';
+  constructor(
+    @InjectRepository(Credit)
+    private readonly creditRepository: Repository<Credit>,
+  ) {}
+
+  async create(createCreditDto: CreateCreditDto) {
+    try {
+      const result = await this.creditRepository.create({ ...createCreditDto });
+      return await this.creditRepository.save(result);
+    } catch (error) {
+      return new BadRequestException(error.message);
+    }
   }
 
   findAll() {

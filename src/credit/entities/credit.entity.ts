@@ -6,42 +6,42 @@ export class Credit {
   @PrimaryGeneratedColumn('uuid')
   creditId: string;
 
-  @Column()
+  @Column({ default: 0.0, type: 'numeric' })
   @IsNumber()
   @Min(0)
   card: number;
 
   @Min(0)
-  @Column()
   @IsNumber()
-  laboratory: number;
+  @Column({ default: 0.0, type: 'numeric' })
+  labratory: number;
 
   @Min(0)
-  @Column()
   @IsNumber()
+  @Column({ default: 0.0, type: 'numeric' })
   imaging: number;
 
   @Min(0)
-  @Column()
   @IsNumber()
+  @Column({ default: 0.0, type: 'numeric' })
   procedure: number;
 
-  @Column()
   @IsNumber()
   @Min(0)
+  @Column({ default: 0.0, type: 'numeric' })
   medicine: number;
 
-  @Column()
   @IsNumber()
+  @Column({ default: 0.0, type: 'numeric' })
   @Min(0)
   bed: number;
 
-  @Column()
   @IsNumber()
   @Min(0)
+  @Column({ default: 0.0, type: 'numeric' })
   others: number;
 
   @IsString()
-  @Column()
+  @Column({ default: '' })
   comment: string;
 }
