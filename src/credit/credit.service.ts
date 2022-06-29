@@ -5,7 +5,7 @@ import {
   NotFoundException,
 } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository, UpdateResult } from 'typeorm';
+import { DeleteResult, Repository, UpdateResult } from 'typeorm';
 import { CreateCreditDto } from './dto/create-credit.dto';
 import { UpdateCreditDto } from './dto/update-credit.dto';
 import { Credit } from './entities/credit.entity';
@@ -61,7 +61,15 @@ export class CreditService {
     }
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} credit`;
+  async remove(id: string) {
+    try {
+      const result: DeleteResult = await this.creditRepository.delete(id);
+      if (result.affected === 0) {
+        throw new NotFoundException();
+      }
+      return result;
+    } catch (error) {
+      return new NotFoundException();
+    }
   }
 }
