@@ -1,6 +1,11 @@
-import { BadRequestException, Injectable, InternalServerErrorException } from '@nestjs/common';
+import {
+  BadRequestException,
+  Injectable,
+  InternalServerErrorException,
+  NotFoundException,
+} from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
+import { Repository, UpdateResult } from 'typeorm';
 import { CreateCreditDto } from './dto/create-credit.dto';
 import { UpdateCreditDto } from './dto/update-credit.dto';
 import { Credit } from './entities/credit.entity';
@@ -21,20 +26,39 @@ export class CreditService {
     }
   }
 
-  findAll() {
+  async findAll() {
     try {
-      return this.creditRepository.find();
+      return await this.creditRepository.find();
     } catch (error) {
       return new InternalServerErrorException();
     }
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} credit`;
+  async findOne(id: string) {
+    try {
+      const credit = await this.creditRepository.findOneBy({ creditId: id });
+      if (!credit) {
+        throw new NotFoundException();
+      }
+      return credit;
+    } catch (error) {
+      return new NotFoundException();
+    }
   }
 
-  update(id: number, updateCreditDto: UpdateCreditDto) {
-    return `This action updates a #${id} credit`;
+  async update(id: string, updateCreditDto: UpdateCreditDto) {
+    try {
+      const result: UpdateResult = await this.creditRepository.update(id, {
+        ...updateCreditDto,
+      });
+
+      if (result.affected === 0) {
+        throw new NotFoundException();
+      }
+      return result;
+    } catch (error) {
+      return new NotFoundException();
+    }
   }
 
   remove(id: number) {

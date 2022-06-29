@@ -6,6 +6,7 @@ import {
   Patch,
   Param,
   Delete,
+  ParseUUIDPipe,
 } from '@nestjs/common';
 import { CreditService } from './credit.service';
 import { CreateCreditDto } from './dto/create-credit.dto';
@@ -26,13 +27,16 @@ export class CreditController {
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.creditService.findOne(+id);
+  findOne(@Param('id', new ParseUUIDPipe()) id: string) {
+    return this.creditService.findOne(id);
   }
 
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateCreditDto: UpdateCreditDto) {
-    return this.creditService.update(+id, updateCreditDto);
+  update(
+    @Param('id', new ParseUUIDPipe()) id: string,
+    @Body() updateCreditDto: UpdateCreditDto,
+  ) {
+    return this.creditService.update(id, updateCreditDto);
   }
 
   @Delete(':id')
