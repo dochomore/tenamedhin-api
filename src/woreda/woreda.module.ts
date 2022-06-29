@@ -4,6 +4,6 @@ import { WoredaController } from './woreda.controller';
 
 @Module({
   controllers: [WoredaController],
-  providers: [WoredaService]
+  providers: [WoredaService],
 })
 export class WoredaModule {}

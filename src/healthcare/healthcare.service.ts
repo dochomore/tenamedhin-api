@@ -42,7 +42,10 @@ export class HealthcareService {
       if (!result) {
         throw new NotFoundException();
       }
-    } catch (error) {}
+      return result;
+    } catch (error) {
+      return new NotFoundException();
+    }
   }
 
   async update(id: string, updateHealthcareDto: UpdateHealthcareDto) {
@@ -55,6 +58,7 @@ export class HealthcareService {
       if (result.affected === 0) {
         throw new NotFoundException();
       }
+      return result;
     } catch (error) {
       return new NotFoundException();
     }
