@@ -1,4 +1,8 @@
-import { BadRequestException, Injectable } from '@nestjs/common';
+import {
+  BadRequestException,
+  Injectable,
+  InternalServerErrorException,
+} from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { CreateMemberDto } from './dto/create-member.dto';
@@ -42,8 +46,12 @@ export class MemberService {
     }
   }
 
-  findAll() {
-    return `This action returns all member`;
+  async findAll() {
+    try {
+      return await this.memberService.find();
+    } catch (error) {
+      return new InternalServerErrorException();
+    }
   }
 
   findOne(id: number) {
