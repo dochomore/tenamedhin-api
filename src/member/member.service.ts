@@ -87,6 +87,7 @@ export class MemberService {
       if (result.affected === 0) {
         throw new NotFoundException();
       }
+      return result;
     } catch (error) {
       return new NotFoundException();
     }
