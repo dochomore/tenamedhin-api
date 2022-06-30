@@ -13,6 +13,7 @@ import { Hospital } from './hospital/entities/hospital.entity';
 import { Healthcare } from './healthcare/entities/healthcare.entity';
 import { Credit } from './credit/entities/credit.entity';
 import { MemberModule } from './member/member.module';
+import { Member } from './member/entities/member.entity';
 
 @Module({
   imports: [
@@ -27,7 +28,7 @@ import { MemberModule } from './member/member.module';
       username: process.env.DATABASE_USERNAME,
       password: process.env.DATABASE_PASSWORD,
       database: process.env.DATABASE_NAME,
-      entities: [Kebele, Hospital, Healthcare, Credit],
+      entities: [Kebele, Hospital, Healthcare, Credit, Member],
       synchronize: true,
     }),
     CreditModule,
