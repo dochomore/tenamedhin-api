@@ -84,6 +84,9 @@ export class MemberService {
   async remove(id: string) {
     try {
       const result: DeleteResult = await this.memberService.delete(id);
+      if (result.affected === 0) {
+        throw new NotFoundException();
+      }
     } catch (error) {
       return new NotFoundException();
     }
