@@ -2,8 +2,10 @@ import {
   BadRequestException,
   Injectable,
   InternalServerErrorException,
+  NotFoundException,
 } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
+import { NotFoundError } from 'rxjs';
 import { Repository } from 'typeorm';
 import { CreateMemberDto } from './dto/create-member.dto';
 import { UpdateMemberDto } from './dto/update-member.dto';
@@ -54,8 +56,16 @@ export class MemberService {
     }
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} member`;
+  async findOne(id: string) {
+    try {
+      const result = await this.memberService.findOneBy({ memberUid: id });
+      if (!result) {
+        throw new NotFoundException();
+      }
+      return result;
+    } catch (error) {
+      return new NotFoundException();
+    }
   }
 
   update(id: number, updateMemberDto: UpdateMemberDto) {

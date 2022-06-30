@@ -19,7 +19,7 @@ export class MemberController {
   create(@Body() createMemberDto: CreateMemberDto) {
     return this.memberService.create(createMemberDto);
   }
-// 
+
   @Get()
   findAll() {
     return this.memberService.findAll();
@@ -27,7 +27,7 @@ export class MemberController {
 
   @Get(':id')
   findOne(@Param('id') id: string) {
-    return this.memberService.findOne(+id);
+    return this.memberService.findOne(id);
   }
 
   @Patch(':id')
