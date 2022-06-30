@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { BadRequestException, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { CreateMemberDto } from './dto/create-member.dto';
@@ -12,8 +12,34 @@ export class MemberService {
     private readonly memberService: Repository<Member>,
   ) {}
 
-  create(createMemberDto: CreateMemberDto) {
-    return 'This action adds a new member';
+  async create(createMemberDto: CreateMemberDto) {
+    try {
+      const {
+        dateOfRegistration,
+        memberId,
+        firstName,
+        fatherName,
+        gfName,
+        gender,
+        age,
+        willPay,
+        idCardIssued,
+      } = createMemberDto;
+      const member = await this.memberService.create({
+        dateOfRegistration: dateOfRegistration,
+        memberId: memberId,
+        firstName: firstName,
+        fatherName: fatherName,
+        gfName: gfName,
+        gender: gender,
+        age: age,
+        willPay: willPay,
+        idCardIssued: idCardIssued,
+      });
+      return await this.memberService.save(member);
+    } catch (error) {
+      return new BadRequestException();
+    }
   }
 
   findAll() {

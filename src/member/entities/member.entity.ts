@@ -30,9 +30,9 @@ export class Member {
   @Column()
   age: number;
 
-  @Column()
+  @Column({ default: true })
   willPay: boolean;
 
-  @Column({ nullable: true })
+  @Column({ default: false })
   idCardIssued: boolean;
 }

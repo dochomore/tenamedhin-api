@@ -19,7 +19,7 @@ export class MemberController {
   create(@Body() createMemberDto: CreateMemberDto) {
     return this.memberService.create(createMemberDto);
   }
-
+// 
   @Get()
   findAll() {
     return this.memberService.findAll();
