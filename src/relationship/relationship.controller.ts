@@ -12,7 +12,7 @@ import { RelationshipService } from './relationship.service';
 import { CreateRelationshipDto } from './dto/create-relationship.dto';
 import { UpdateRelationshipDto } from './dto/update-relationship.dto';
 
-@Controller('relationship')
+@Controller('relationships')
 export class RelationshipController {
   constructor(private readonly relationshipService: RelationshipService) {}
 
