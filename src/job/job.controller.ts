@@ -27,7 +27,7 @@ export class JobController {
 
   @Get(':id')
   findOne(@Param('id') id: string) {
-    return this.jobService.findOne(+id);
+    return this.jobService.findOne(id);
   }
 
   @Patch(':id')

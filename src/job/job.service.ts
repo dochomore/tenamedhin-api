@@ -28,8 +28,16 @@ export class JobService {
     } catch (error) {}
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} job`;
+  async findOne(id: string) {
+    try {
+      const result = await this.jobRepository.findOneBy({ jobUUID: id });
+      if (!result) {
+        throw new NotFoundException();
+      }
+      return result;
+    } catch (error) {
+      return new NotFoundException();
+    }
   }
 
   update(id: number, updateJobDto: UpdateJobDto) {
