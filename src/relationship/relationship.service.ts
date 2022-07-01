@@ -4,7 +4,7 @@ import {
   NotFoundException,
 } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
+import { Repository, UpdateResult } from 'typeorm';
 import { CreateRelationshipDto } from './dto/create-relationship.dto';
 import { UpdateRelationshipDto } from './dto/update-relationship.dto';
 import { Relationship } from './entities/relationship.entity';
@@ -42,16 +42,35 @@ export class RelationshipService {
       if (!result) {
         throw new NotFoundException();
       }
+      return result;
     } catch (error) {
       return new NotFoundException();
     }
   }
 
-  update(id: number, updateRelationshipDto: UpdateRelationshipDto) {
-    return `This action updates a #${id} relationship`;
+  async update(id: string, updateRelationshipDto: UpdateRelationshipDto) {
+    try {
+      const result: UpdateResult = await this.realtionRepo.update(id, {
+        ...updateRelationshipDto,
+      });
+      if (result.affected === 0) {
+        throw new NotFoundException();
+      }
+      return result;
+    } catch (error) {
+      return new NotFoundException();
+    }
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} relationship`;
+  async remove(id: string) {
+    try {
+      const result = await this.realtionRepo.delete(id);
+      if (result.affected === 0) {
+        throw new NotFoundException();
+      }
+      return result;
+    } catch (error) {
+      return new NotFoundException();
+    }
   }
 }
