@@ -19,6 +19,7 @@ import { Job } from './job/entities/job.entity';
 import { OrganizationModule } from './organization/organization.module';
 import { Organization } from './organization/entities/organization.entity';
 import { Familymember } from './member/familymember/entities/familymember.entity';
+import { RelationshipModule } from './relationship/relationship.module';
 
 @Module({
   imports: [
@@ -50,6 +51,7 @@ import { Familymember } from './member/familymember/entities/familymember.entity
     MemberModule,
     JobModule,
     OrganizationModule,
+    RelationshipModule,
   ],
   controllers: [AppController],
   providers: [AppService],

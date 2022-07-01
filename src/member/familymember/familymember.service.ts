@@ -77,7 +77,7 @@ export class FamilymemberService {
     }
   }
 
-  async remove(id: number) {
+  async remove(id: string) {
     try {
       const result: DeleteResult = await this.memberRepository.delete(id);
       if (result.affected === 0) {
