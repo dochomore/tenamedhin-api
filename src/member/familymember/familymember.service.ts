@@ -4,7 +4,7 @@ import {
   NotFoundException,
 } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository, UpdateResult } from 'typeorm';
+import { DeleteResult, Repository, UpdateResult } from 'typeorm';
 import { CreateFamilymemberDto } from './dto/create-familymember.dto';
 import { UpdateFamilymemberDto } from './dto/update-familymember.dto';
 import { Familymember } from './entities/familymember.entity';
@@ -77,7 +77,15 @@ export class FamilymemberService {
     }
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} familymember`;
+  async remove(id: number) {
+    try {
+      const result: DeleteResult = await this.memberRepository.delete(id);
+      if (result.affected === 0) {
+        throw new NotFoundException();
+      }
+      return result;
+    } catch (error) {
+      return new NotFoundException();
+    }
   }
 }

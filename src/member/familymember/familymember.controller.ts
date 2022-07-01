@@ -33,14 +33,14 @@ export class FamilymemberController {
 
   @Patch(':id')
   update(
-    @Param('id') id: string,
+    @Param('id', new ParseUUIDPipe()) id: string,
     @Body() updateFamilymemberDto: UpdateFamilymemberDto,
   ) {
-    return this.familymemberService.update(+id, updateFamilymemberDto);
+    return this.familymemberService.update(id, updateFamilymemberDto);
   }
 
   @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.familymemberService.remove(+id);
+  remove(@Param('id', new ParseUUIDPipe()) id: string) {
+    return this.familymemberService.remove(id);
   }
 }
