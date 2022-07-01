@@ -11,6 +11,6 @@ export class Organization {
   @Column({ type: 'timestamptz' })
   dateOfCreation: Date;
 
-  @Column()
+  @Column({ unique: true })
   organizationName: string;
 }

@@ -1,4 +1,8 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import {
+  BadRequestException,
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { DeleteResult, Repository, UpdateResult } from 'typeorm';
 import { CreateJobDto } from './dto/create-job.dto';
@@ -18,13 +22,17 @@ export class JobService {
         jobName: jobName,
       });
       return await this.jobRepository.save(job);
-    } catch (error) {}
+    } catch (error) {
+      return new BadRequestException();
+    }
   }
 
   async findAll() {
     try {
       return await this.jobRepository.find();
-    } catch (error) {}
+    } catch (error) {
+      return new BadRequestException();
+    }
   }
 
   async findOne(id: string) {
