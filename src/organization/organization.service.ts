@@ -25,8 +25,12 @@ export class OrganizationService {
     }
   }
 
-  findAll() {
-    return `This action returns all organization`;
+  async findAll() {
+    try {
+      return await this.orgRepository.find();
+    } catch (error) {
+      return new BadRequestException();
+    }
   }
 
   findOne(id: number) {
