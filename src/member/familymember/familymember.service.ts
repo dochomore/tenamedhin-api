@@ -4,7 +4,7 @@ import {
   NotFoundException,
 } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
+import { Repository, UpdateResult } from 'typeorm';
 import { CreateFamilymemberDto } from './dto/create-familymember.dto';
 import { UpdateFamilymemberDto } from './dto/update-familymember.dto';
 import { Familymember } from './entities/familymember.entity';
@@ -63,8 +63,18 @@ export class FamilymemberService {
     }
   }
 
-  update(id: number, updateFamilymemberDto: UpdateFamilymemberDto) {
-    return `This action updates a #${id} familymember`;
+  async update(id: string, updateFamilymemberDto: UpdateFamilymemberDto) {
+    try {
+      const result: UpdateResult = await this.memberRepository.update(id, {
+        ...updateFamilymemberDto,
+      });
+      if (result.affected === 0) {
+        throw new NotFoundException();
+      }
+      return result;
+    } catch (error) {
+      return new NotFoundException();
+    }
   }
 
   remove(id: number) {
