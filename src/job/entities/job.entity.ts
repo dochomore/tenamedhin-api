@@ -11,6 +11,6 @@ export class Job {
   @Column({ type: 'timestamptz', default: new Date() })
   dateOfCreation: Date;
 
-  @Column()
+  @Column({ unique: true })
   jobName: string;
 }
