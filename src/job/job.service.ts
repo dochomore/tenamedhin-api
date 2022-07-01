@@ -22,8 +22,10 @@ export class JobService {
     } catch (error) {}
   }
 
-  findAll() {
-    return `This action returns all job`;
+  async findAll() {
+    try {
+      return await this.jobRepository.find();
+    } catch (error) {}
   }
 
   findOne(id: number) {
