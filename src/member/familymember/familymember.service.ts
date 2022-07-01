@@ -1,4 +1,8 @@
-import { BadRequestException, Injectable } from '@nestjs/common';
+import {
+  BadRequestException,
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { CreateFamilymemberDto } from './dto/create-familymember.dto';
@@ -47,8 +51,16 @@ export class FamilymemberService {
     }
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} familymember`;
+  async findOne(id: string) {
+    try {
+      const result = await this.memberRepository.findOneBy({ memberUID: id });
+      if (!result) {
+        throw new NotFoundException();
+      }
+      return result;
+    } catch (error) {
+      return new BadRequestException();
+    }
   }
 
   update(id: number, updateFamilymemberDto: UpdateFamilymemberDto) {

@@ -3,7 +3,7 @@ import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
 @Entity()
 export class Familymember {
   @PrimaryGeneratedColumn('uuid')
-  memberId: string;
+  memberUID: string;
 
   @Column({ type: 'timestamptz' })
   dateOfRegistration: Date;

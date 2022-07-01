@@ -1,4 +1,13 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Patch,
+  Param,
+  Delete,
+  ParseUUIDPipe,
+} from '@nestjs/common';
 import { FamilymemberService } from './familymember.service';
 import { CreateFamilymemberDto } from './dto/create-familymember.dto';
 import { UpdateFamilymemberDto } from './dto/update-familymember.dto';
@@ -18,12 +27,15 @@ export class FamilymemberController {
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.familymemberService.findOne(+id);
+  findOne(@Param('id', new ParseUUIDPipe()) id: string) {
+    return this.familymemberService.findOne(id);
   }
 
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateFamilymemberDto: UpdateFamilymemberDto) {
+  update(
+    @Param('id') id: string,
+    @Body() updateFamilymemberDto: UpdateFamilymemberDto,
+  ) {
     return this.familymemberService.update(+id, updateFamilymemberDto);
   }
 
