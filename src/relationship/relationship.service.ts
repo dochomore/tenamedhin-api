@@ -24,8 +24,12 @@ export class RelationshipService {
     }
   }
 
-  findAll() {
-    return `This action returns all relationship`;
+  async findAll() {
+    try {
+      return await this.realtionRepo.find();
+    } catch (error) {
+      return new BadRequestException();
+    }
   }
 
   findOne(id: number) {
