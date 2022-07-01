@@ -28,7 +28,7 @@ export class RelationshipController {
 
   @Get(':id')
   findOne(@Param('id', new ParseUUIDPipe()) id: string) {
-    return this.relationshipService.findOne(+id);
+    return this.relationshipService.findOne(id);
   }
 
   @Patch(':id')
@@ -36,11 +36,11 @@ export class RelationshipController {
     @Param('id', new ParseUUIDPipe()) id: string,
     @Body() updateRelationshipDto: UpdateRelationshipDto,
   ) {
-    return this.relationshipService.update(+id, updateRelationshipDto);
+    return this.relationshipService.update(id, updateRelationshipDto);
   }
 
   @Delete(':id')
   remove(@Param('id', new ParseUUIDPipe()) id: string) {
-    return this.relationshipService.remove(+id);
+    return this.relationshipService.remove(id);
   }
 }
