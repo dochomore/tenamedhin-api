@@ -1,11 +1,27 @@
-import { Injectable } from '@nestjs/common';
+import { BadRequestException, Injectable } from '@nestjs/common';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Repository } from 'typeorm';
 import { CreateRelationshipDto } from './dto/create-relationship.dto';
 import { UpdateRelationshipDto } from './dto/update-relationship.dto';
+import { Relationship } from './entities/relationship.entity';
 
 @Injectable()
 export class RelationshipService {
-  create(createRelationshipDto: CreateRelationshipDto) {
-    return 'This action adds a new relationship';
+  constructor(
+    @InjectRepository(Relationship)
+    private readonly realtionRepo: Repository<Relationship>,
+  ) {}
+
+  async create(createRelationshipDto: CreateRelationshipDto) {
+    try {
+      const { relationName } = createRelationshipDto;
+      const result = await this.realtionRepo.create({
+        relationName: relationName,
+      });
+      return await this.realtionRepo.save(result);
+    } catch (error) {
+      return new BadRequestException();
+    }
   }
 
   findAll() {
