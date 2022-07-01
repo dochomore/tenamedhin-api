@@ -1,11 +1,42 @@
-import { Injectable } from '@nestjs/common';
+import { BadRequestException, Injectable } from '@nestjs/common';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Repository } from 'typeorm';
 import { CreateFamilymemberDto } from './dto/create-familymember.dto';
 import { UpdateFamilymemberDto } from './dto/update-familymember.dto';
+import { Familymember } from './entities/familymember.entity';
 
 @Injectable()
 export class FamilymemberService {
-  create(createFamilymemberDto: CreateFamilymemberDto) {
-    return 'This action adds a new familymember';
+  constructor(
+    @InjectRepository(Familymember)
+    private readonly memberRepository: Repository<Familymember>,
+  ) {}
+
+  async create(createFamilymemberDto: CreateFamilymemberDto) {
+    try {
+      const {
+        dateOfRegistration,
+        firstName,
+        fatherName,
+        gfName,
+        gender,
+        age,
+        dateOfBirth,
+      } = createFamilymemberDto;
+      const member = await this.memberRepository.create({
+        dateOfRegistration: dateOfRegistration,
+        firstName: firstName,
+        fatherName: fatherName,
+        gfName: gfName,
+        gender: gender,
+        age: age,
+        dateOfBirth: dateOfBirth,
+      });
+
+      return await this.memberRepository.save(member);
+    } catch (error) {
+      return new BadRequestException();
+    }
   }
 
   findAll() {

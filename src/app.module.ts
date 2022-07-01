@@ -18,6 +18,7 @@ import { JobModule } from './job/job.module';
 import { Job } from './job/entities/job.entity';
 import { OrganizationModule } from './organization/organization.module';
 import { Organization } from './organization/entities/organization.entity';
+import { Familymember } from './member/familymember/entities/familymember.entity';
 
 @Module({
   imports: [
@@ -40,6 +41,7 @@ import { Organization } from './organization/entities/organization.entity';
         Member,
         Job,
         Organization,
+        Familymember,
       ],
       synchronize: true,
     }),

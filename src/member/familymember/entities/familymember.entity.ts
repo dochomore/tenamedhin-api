@@ -6,10 +6,10 @@ export class Familymember {
   memberId: string;
 
   @Column({ type: 'timestamptz' })
-  dateOfRegistration: string;
+  dateOfRegistration: Date;
 
   @Column()
-  fristName: string;
+  firstName: string;
 
   @Column()
   fatherName: string;
@@ -24,5 +24,5 @@ export class Familymember {
   age: number;
 
   @Column({ type: 'date' })
-  dateOfBirth: string;
+  dateOfBirth: Date;
 }
