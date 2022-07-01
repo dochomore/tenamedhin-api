@@ -39,8 +39,12 @@ export class FamilymemberService {
     }
   }
 
-  findAll() {
-    return `This action returns all familymember`;
+  async findAll() {
+    try {
+      return await this.memberRepository.find();
+    } catch (error) {
+      return new BadRequestException();
+    }
   }
 
   findOne(id: number) {
