@@ -33,10 +33,10 @@ export class OrganizationController {
 
   @Patch(':id')
   update(
-    @Param('id') id: string,
+    @Param('id', new ParseUUIDPipe()) id: string,
     @Body() updateOrganizationDto: UpdateOrganizationDto,
   ) {
-    return this.organizationService.update(+id, updateOrganizationDto);
+    return this.organizationService.update(id, updateOrganizationDto);
   }
 
   @Delete(':id')
