@@ -1,7 +1,8 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
+import { date } from 'faker';
 import { NotFoundError } from 'rxjs';
-import { DeleteResult, Repository } from 'typeorm';
+import { DeleteResult, Repository, UpdateResult } from 'typeorm';
 import { CreateJobDto } from './dto/create-job.dto';
 import { UpdateJobDto } from './dto/update-job.dto';
 import { Job } from './entities/job.entity';
@@ -40,8 +41,20 @@ export class JobService {
     }
   }
 
-  update(id: number, updateJobDto: UpdateJobDto) {
-    return `This action updates a #${id} job`;
+  async update(id: string, updateJobDto: UpdateJobDto) {
+    try {
+      const { dateOfCreation, jobName } = updateJobDto;
+      const result: UpdateResult = await this.jobRepository.update(id, {
+        dateOfCreation: dateOfCreation,
+        jobName: jobName,
+      });
+      if (result.affected === 0) {
+        throw new NotFoundException();
+      }
+      return result;
+    } catch (error) {
+      return new NotFoundException(error.message);
+    }
   }
 
   async remove(id: string) {
