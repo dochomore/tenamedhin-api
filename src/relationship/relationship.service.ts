@@ -1,4 +1,8 @@
-import { BadRequestException, Injectable } from '@nestjs/common';
+import {
+  BadRequestException,
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { CreateRelationshipDto } from './dto/create-relationship.dto';
@@ -32,8 +36,15 @@ export class RelationshipService {
     }
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} relationship`;
+  async findOne(id: string) {
+    try {
+      const result = await this.realtionRepo.findOneBy({ relationUid: id });
+      if (!result) {
+        throw new NotFoundException();
+      }
+    } catch (error) {
+      return new NotFoundException();
+    }
   }
 
   update(id: number, updateRelationshipDto: UpdateRelationshipDto) {
