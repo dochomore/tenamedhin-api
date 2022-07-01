@@ -16,6 +16,7 @@ import { MemberModule } from './member/member.module';
 import { Member } from './member/entities/member.entity';
 import { JobModule } from './job/job.module';
 import { Job } from './job/entities/job.entity';
+import { OrganizationModule } from './organization/organization.module';
 
 @Module({
   imports: [
@@ -37,6 +38,7 @@ import { Job } from './job/entities/job.entity';
     WoredaModule,
     MemberModule,
     JobModule,
+    OrganizationModule,
   ],
   controllers: [AppController],
   providers: [AppService],

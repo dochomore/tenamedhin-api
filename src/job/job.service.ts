@@ -1,7 +1,5 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { date } from 'faker';
-import { NotFoundError } from 'rxjs';
 import { DeleteResult, Repository, UpdateResult } from 'typeorm';
 import { CreateJobDto } from './dto/create-job.dto';
 import { UpdateJobDto } from './dto/update-job.dto';
