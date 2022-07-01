@@ -14,6 +14,7 @@ import { Healthcare } from './healthcare/entities/healthcare.entity';
 import { Credit } from './credit/entities/credit.entity';
 import { MemberModule } from './member/member.module';
 import { Member } from './member/entities/member.entity';
+import { JobModule } from './job/job.module';
 
 @Module({
   imports: [
@@ -34,6 +35,7 @@ import { Member } from './member/entities/member.entity';
     CreditModule,
     WoredaModule,
     MemberModule,
+    JobModule,
   ],
   controllers: [AppController],
   providers: [AppService],
