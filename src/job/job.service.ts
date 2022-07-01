@@ -1,11 +1,24 @@
 import { Injectable } from '@nestjs/common';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Repository } from 'typeorm';
 import { CreateJobDto } from './dto/create-job.dto';
 import { UpdateJobDto } from './dto/update-job.dto';
+import { Job } from './entities/job.entity';
 
 @Injectable()
 export class JobService {
-  create(createJobDto: CreateJobDto) {
-    return 'This action adds a new job';
+  constructor(
+    @InjectRepository(Job) private readonly jobRepository: Repository<Job>,
+  ) {}
+  async create(createJobDto: CreateJobDto) {
+    try {
+      const { dateOfCreation, jobName } = createJobDto;
+      const job = this.jobRepository.create({
+        dateOfCreation: dateOfCreation,
+        jobName: jobName,
+      });
+      return await this.jobRepository.save(job);
+    } catch (error) {}
   }
 
   findAll() {

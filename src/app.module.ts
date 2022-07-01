@@ -15,6 +15,7 @@ import { Credit } from './credit/entities/credit.entity';
 import { MemberModule } from './member/member.module';
 import { Member } from './member/entities/member.entity';
 import { JobModule } from './job/job.module';
+import { Job } from './job/entities/job.entity';
 
 @Module({
   imports: [
@@ -29,7 +30,7 @@ import { JobModule } from './job/job.module';
       username: process.env.DATABASE_USERNAME,
       password: process.env.DATABASE_PASSWORD,
       database: process.env.DATABASE_NAME,
-      entities: [Kebele, Hospital, Healthcare, Credit, Member],
+      entities: [Kebele, Hospital, Healthcare, Credit, Member, Job],
       synchronize: true,
     }),
     CreditModule,
