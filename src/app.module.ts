@@ -20,6 +20,7 @@ import { OrganizationModule } from './organization/organization.module';
 import { Organization } from './organization/entities/organization.entity';
 import { Familymember } from './member/familymember/entities/familymember.entity';
 import { RelationshipModule } from './relationship/relationship.module';
+import { Relationship } from './relationship/entities/relationship.entity';
 
 @Module({
   imports: [
@@ -43,6 +44,7 @@ import { RelationshipModule } from './relationship/relationship.module';
         Job,
         Organization,
         Familymember,
+        Relationship,
       ],
       synchronize: true,
     }),

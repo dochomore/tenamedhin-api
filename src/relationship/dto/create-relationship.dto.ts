@@ -1,1 +1,3 @@
-export class CreateRelationshipDto {}
+export class CreateRelationshipDto {
+  relationName: string;
+}
