@@ -49,8 +49,32 @@ describe('MemberController', () => {
   });
 
   describe('findOne', () => {
-    it('should return a member with valid id', () => {});
+    it('should return a member with valid id', async () => {
+      const result: Member = {
+        memberUid: '',
+        dateOfRegistration: '',
+        memberId: '',
+        firstName: '',
+        fatherName: '',
+        gfName: '',
+        gender: '',
+        age: 0,
+        willPay: false,
+        idCardIssued: false,
+      };
+
+      const spy = jest.spyOn(service, 'findOne').mockResolvedValueOnce(result);
+
+      const expectedResult = await controller.findOne(
+        'ec713036-d067-406a-8b20-8e246fd8cd9c',
+      );
+
+      expect(expectedResult).toEqual(result);
+      expect(spy).toHaveBeenCalledWith('ec713036-d067-406a-8b20-8e246fd8cd9c');
+    });
 
     it("should throw 'NotFoundException' if not valid id is provided", () => {});
+
+    it("should throw 'NotFoundException' if undefined value is provided", () => {});
   });
 });
