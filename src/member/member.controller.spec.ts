@@ -4,6 +4,7 @@ import { MemberService } from './member.service';
 
 describe('MemberController', () => {
   let controller: MemberController;
+  let service: MemberService;
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
@@ -11,6 +12,7 @@ describe('MemberController', () => {
       providers: [MemberService],
     }).compile();
 
+    service = module.get<MemberService>(MemberService);
     controller = module.get<MemberController>(MemberController);
   });
 
