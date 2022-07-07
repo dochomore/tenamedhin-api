@@ -36,11 +36,21 @@ describe('MemberController', () => {
       expect(expectedResult).toBe(result);
     });
     it("should throw 'BadRequestException' if no valid valiue is returned", async () => {
-      jest.spyOn(service, 'findAll').mockResolvedValueOnce(undefined);
+      const findAllSpy = jest
+        .spyOn(service, 'findAll')
+        .mockResolvedValueOnce(undefined);
 
       try {
         expect(await controller.findAll()).toThrow(BadRequestException);
-      } catch (error) {}
+      } catch (error) {
+        expect(findAllSpy).toBeCalledTimes(1);
+      }
     });
+  });
+
+  describe('findOne', () => {
+    it('should return a member with valid id', () => {});
+
+    it("should throw 'NotFoundException' if not valid id is provided", () => {});
   });
 });
