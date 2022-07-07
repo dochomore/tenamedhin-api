@@ -14,7 +14,7 @@ import { Member } from './entities/member.entity';
 export class MemberService {
   constructor(
     @InjectRepository(Member)
-    private readonly memberService: Repository<Member>,
+    private readonly memberRepository: Repository<Member>,
   ) {}
 
   async create(createMemberDto: CreateMemberDto) {
@@ -30,7 +30,7 @@ export class MemberService {
         willPay,
         idCardIssued,
       } = createMemberDto;
-      const member = await this.memberService.create({
+      const member = await this.memberRepository.create({
         dateOfRegistration: dateOfRegistration,
         memberId: memberId,
         firstName: firstName,
@@ -41,7 +41,7 @@ export class MemberService {
         willPay: willPay,
         idCardIssued: idCardIssued,
       });
-      return await this.memberService.save(member);
+      return await this.memberRepository.save(member);
     } catch (error) {
       return new BadRequestException();
     }
@@ -49,15 +49,15 @@ export class MemberService {
 
   async findAll() {
     try {
-      return await this.memberService.find();
+      return await this.memberRepository.find();
     } catch (error) {
-      return new InternalServerErrorException();
+      return new BadRequestException();
     }
   }
 
   async findOne(id: string) {
     try {
-      const result = await this.memberService.findOneBy({ memberUid: id });
+      const result = await this.memberRepository.findOneBy({ memberUid: id });
       if (!result) {
         throw new NotFoundException();
       }
@@ -69,7 +69,7 @@ export class MemberService {
 
   async update(id: string, updateMemberDto: UpdateMemberDto) {
     try {
-      const result: UpdateResult = await this.memberService.update(id, {
+      const result: UpdateResult = await this.memberRepository.update(id, {
         ...updateMemberDto,
       });
       if (result.affected === 0) {
@@ -83,7 +83,7 @@ export class MemberService {
 
   async remove(id: string) {
     try {
-      const result: DeleteResult = await this.memberService.delete(id);
+      const result: DeleteResult = await this.memberRepository.delete(id);
       if (result.affected === 0) {
         throw new NotFoundException();
       }

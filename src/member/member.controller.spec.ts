@@ -1,3 +1,4 @@
+import { BadRequestException } from '@nestjs/common';
 import { Test, TestingModule } from '@nestjs/testing';
 import { getRepositoryToken } from '@nestjs/typeorm';
 import { Member } from './entities/member.entity';
@@ -23,5 +24,16 @@ describe('MemberController', () => {
 
   it('should be defined', () => {
     expect(controller).toBeDefined();
+  });
+
+  describe('findAll', () => {
+    it('should return list of members', async () => {
+      const result: Member[] = [];
+
+      jest.spyOn(service, 'findAll').mockResolvedValue(result);
+      const expectedResult = await controller.findAll();
+
+      expect(expectedResult).toBe(result);
+    });
   });
 });
