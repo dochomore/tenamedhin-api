@@ -1,4 +1,4 @@
-import { BadRequestException } from '@nestjs/common';
+import { BadRequestException, NotFoundException } from '@nestjs/common';
 import { Test, TestingModule } from '@nestjs/testing';
 import { getRepositoryToken } from '@nestjs/typeorm';
 import { Member } from './entities/member.entity';
@@ -73,7 +73,16 @@ describe('MemberController', () => {
       expect(spy).toHaveBeenCalledWith('ec713036-d067-406a-8b20-8e246fd8cd9c');
     });
 
-    it("should throw 'NotFoundException' if not valid id is provided", () => {});
+    it("should throw 'NotFoundException' if not valid id is provided", async () => {
+      const spy = jest.spyOn(service, 'findOne').mockResolvedValue(undefined);
+
+      const expectedResult = await controller.findOne('1');
+
+      try {
+        expect(expectedResult).toThrow(NotFoundException);
+        expect(spy).toHaveBeenCalledWith('1');
+      } catch (error) {}
+    });
 
     it("should throw 'NotFoundException' if undefined value is provided", () => {});
   });
