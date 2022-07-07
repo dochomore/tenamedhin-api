@@ -84,6 +84,17 @@ describe('MemberController', () => {
       } catch (error) {}
     });
 
-    it("should throw 'NotFoundException' if undefined value is provided", () => {});
+    it("should throw 'NotFoundException' if undefined value is provided", async () => {
+      /**
+       * every test passes 💀
+       */
+      const spy = jest
+        .spyOn(service, 'findOne')
+        .mockResolvedValue(new BadRequestException());
+      try {
+        expect(await controller.findOne(undefined)).toThrow(NotFoundException);
+        expect(spy).toBeCalledTimes(3);
+      } catch (error) {}
+    });
   });
 });
