@@ -101,4 +101,6 @@ describe('MemberController', () => {
       }
     });
   });
+
+  describe('create', () => {});
 });
