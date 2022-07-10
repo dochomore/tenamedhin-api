@@ -1,6 +1,7 @@
 import { BadRequestException, NotFoundException } from '@nestjs/common';
 import { Test, TestingModule } from '@nestjs/testing';
 import { getRepositoryToken } from '@nestjs/typeorm';
+import { NotFoundError } from 'rxjs';
 import { Member } from './entities/member.entity';
 import { MemberController } from './member.controller';
 import { MemberService } from './member.service';
@@ -35,6 +36,7 @@ describe('MemberController', () => {
 
       expect(expectedResult).toBe(result);
     });
+
     it("should throw 'BadRequestException' if no valid valiue is returned", async () => {
       const findAllSpy = jest
         .spyOn(service, 'findAll')
@@ -74,27 +76,30 @@ describe('MemberController', () => {
     });
 
     it("should throw 'NotFoundException' if not valid id is provided", async () => {
-      const spy = jest.spyOn(service, 'findOne').mockResolvedValue(undefined);
-
-      const expectedResult = await controller.findOne('1');
+      const spy = jest
+        .spyOn(service, 'findOne')
+        .mockRejectedValue(new NotFoundException());
 
       try {
-        expect(expectedResult).toThrow(NotFoundException);
+        expect(controller.findOne('1')).rejects.toThrow(NotFoundException);
+      } catch (error) {
         expect(spy).toHaveBeenCalledWith('1');
-      } catch (error) {}
+      }
     });
 
     it("should throw 'NotFoundException' if undefined value is provided", async () => {
-      /**
-       * every test passes 💀
-       */
-      const spy = jest
+      const findOneSpy = jest
         .spyOn(service, 'findOne')
-        .mockResolvedValue(new BadRequestException());
+        .mockRejectedValue(new BadRequestException());
+
       try {
-        expect(await controller.findOne(undefined)).toThrow(NotFoundException);
-        expect(spy).toBeCalledTimes(3);
-      } catch (error) {}
+        expect(controller.findOne(undefined)).rejects.toThrow(
+          BadRequestException,
+        );
+      } catch (error) {
+        expect(findOneSpy).toHaveBeenCalledWith(undefined);
+        expect(findOneSpy).toHaveBeenCalledTimes(1);
+      }
     });
   });
 });
