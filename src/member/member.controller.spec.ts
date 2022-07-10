@@ -1,7 +1,6 @@
 import { BadRequestException, NotFoundException } from '@nestjs/common';
 import { Test, TestingModule } from '@nestjs/testing';
 import { getRepositoryToken } from '@nestjs/typeorm';
-import { NotFoundError } from 'rxjs';
 import { Member } from './entities/member.entity';
 import { MemberController } from './member.controller';
 import { MemberService } from './member.service';
