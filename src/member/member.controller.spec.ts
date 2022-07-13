@@ -102,5 +102,31 @@ describe('MemberController', () => {
     });
   });
 
-  describe('create', () => {});
+  describe('create', () => {
+    let member;
+
+    beforeEach(() => {
+      member = {
+        memberUid: '',
+        dateOfRegistration: '',
+        memberId: '',
+        firstName: '',
+        fatherName: '',
+        gfName: '',
+        gender: '',
+        age: 0,
+        willPay: false,
+        idCardIssued: false,
+      };
+    });
+
+    it('should create new member', async () => {
+      const dto: any = {};
+
+      const spy = jest.spyOn(service, 'create').mockResolvedValue(member);
+      expect(controller.create(dto)).resolves.toBe(member);
+      expect(spy).toHaveBeenCalledWith(dto);
+      expect(spy).toHaveBeenCalledTimes(1);
+    });
+  });
 });
