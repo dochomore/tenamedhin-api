@@ -27,4 +27,9 @@ describe('MemberService', () => {
   it('should be defined', () => {
     expect(service).toBeDefined();
   });
+
+  describe('create', () => {
+    it('should create member', async () => {});
+    it('should throw [BadRequestException] if first name were not provided', async () => {});
+  });
 });
