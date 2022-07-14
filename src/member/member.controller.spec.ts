@@ -182,5 +182,15 @@ describe('MemberController', () => {
       expect(spy).toHaveBeenCalledWith(id);
       expect(spy).toHaveBeenCalledTimes(1);
     });
+
+    it('should throw [NotFoundException] for invalid id', async () => {
+      const id = 'id';
+      const spy = jest
+        .spyOn(service, 'remove')
+        .mockRejectedValue(new NotFoundException());
+      expect(controller.remove(id)).rejects.toEqual(NotFoundException);
+      expect(spy).toHaveBeenCalledWith(id);
+      expect(spy).toHaveBeenCalledTimes(1);
+    });
   });
 });
