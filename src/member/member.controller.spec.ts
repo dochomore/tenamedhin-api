@@ -146,4 +146,17 @@ describe('MemberController', () => {
       expect(spy).toHaveBeenCalledTimes(1);
     });
   });
+
+  describe('update', () => {
+    it('should update member', async () => {
+      const id = 'id';
+      const dto: any = {};
+
+      const spy = jest.spyOn(service, 'update').mockImplementation(() => dto);
+
+      expect(controller.update(id, dto)).toEqual(dto);
+      expect(spy).toHaveBeenCalledWith(id, dto);
+      expect(spy).toHaveBeenCalledTimes(1);
+    });
+  });
 });
