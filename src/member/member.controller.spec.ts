@@ -1,8 +1,6 @@
 import { BadRequestException, NotFoundException } from '@nestjs/common';
 import { Test, TestingModule } from '@nestjs/testing';
 import { getRepositoryToken } from '@nestjs/typeorm';
-import { async } from 'rxjs';
-import { DeleteResult } from 'typeorm';
 import { Member } from './entities/member.entity';
 import { MemberController } from './member.controller';
 import { MemberService } from './member.service';
@@ -191,6 +189,16 @@ describe('MemberController', () => {
       expect(controller.remove(id)).rejects.toThrow(NotFoundException);
       expect(spy).toHaveBeenCalledWith(id);
       expect(spy).toHaveBeenCalledTimes(1);
+    });
+  });
+
+  describe('findOne', () => {
+    it('should return member', async () => {
+      const id = 'id';
+      const result: any = {};
+      const spy = jest.spyOn(service, 'findOne').mockResolvedValue(result);
+      expect(controller.findOne(id)).resolves.toEqual(result);
+      expect(spy).toHaveBeenCalledWith(id);
     });
   });
 });
