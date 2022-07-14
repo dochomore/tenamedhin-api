@@ -188,7 +188,7 @@ describe('MemberController', () => {
       const spy = jest
         .spyOn(service, 'remove')
         .mockRejectedValue(new NotFoundException());
-      expect(controller.remove(id)).rejects.toEqual(NotFoundException);
+      expect(controller.remove(id)).rejects.toThrow(NotFoundException);
       expect(spy).toHaveBeenCalledWith(id);
       expect(spy).toHaveBeenCalledTimes(1);
     });
