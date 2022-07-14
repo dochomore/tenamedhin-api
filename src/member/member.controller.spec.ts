@@ -1,6 +1,7 @@
 import { BadRequestException, NotFoundException } from '@nestjs/common';
 import { Test, TestingModule } from '@nestjs/testing';
 import { getRepositoryToken } from '@nestjs/typeorm';
+import { async } from 'rxjs';
 import { Member } from './entities/member.entity';
 import { MemberController } from './member.controller';
 import { MemberService } from './member.service';
@@ -126,6 +127,22 @@ describe('MemberController', () => {
       const spy = jest.spyOn(service, 'create').mockResolvedValue(member);
       expect(controller.create(dto)).resolves.toBe(member);
       expect(spy).toHaveBeenCalledWith(dto);
+      expect(spy).toHaveBeenCalledTimes(1);
+    });
+
+    it('should throw [BadRequestException] if first name were not provided', async () => {
+      const dto: any = {};
+
+      const spy = jest
+        .spyOn(service, 'create')
+        .mockImplementation(async (dto) => {
+          const { firstName } = dto;
+          if (!firstName) {
+            return new BadRequestException();
+          }
+        });
+
+      expect(controller.create(dto)).resolves.toThrow(BadRequestException);
       expect(spy).toHaveBeenCalledTimes(1);
     });
   });

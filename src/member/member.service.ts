@@ -16,7 +16,9 @@ export class MemberService {
     private readonly memberRepository: Repository<Member>,
   ) {}
 
-  async create(createMemberDto: CreateMemberDto) {
+  async create(
+    createMemberDto: CreateMemberDto,
+  ): Promise<Member | BadRequestException> {
     try {
       const {
         dateOfRegistration,
@@ -29,6 +31,7 @@ export class MemberService {
         willPay,
         idCardIssued,
       } = createMemberDto;
+
       const member = await this.memberRepository.create({
         dateOfRegistration: dateOfRegistration,
         memberId: memberId,
@@ -40,6 +43,7 @@ export class MemberService {
         willPay: willPay,
         idCardIssued: idCardIssued,
       });
+
       return await this.memberRepository.save(member);
     } catch (error) {
       return new BadRequestException();
