@@ -2,6 +2,7 @@ import { BadRequestException, NotFoundException } from '@nestjs/common';
 import { Test, TestingModule } from '@nestjs/testing';
 import { getRepositoryToken } from '@nestjs/typeorm';
 import { async } from 'rxjs';
+import { DeleteResult } from 'typeorm';
 import { Member } from './entities/member.entity';
 import { MemberController } from './member.controller';
 import { MemberService } from './member.service';
@@ -168,6 +169,17 @@ describe('MemberController', () => {
 
       expect(controller.update(id, dto)).rejects.toThrow(NotFoundException);
       expect(spy).toHaveBeenCalledWith(id, dto);
+      expect(spy).toHaveBeenCalledTimes(1);
+    });
+  });
+
+  describe('delete', () => {
+    it('should delete id', async () => {
+      const id = 'id';
+      const result: any = {};
+      const spy = jest.spyOn(service, 'remove').mockResolvedValue(result);
+      expect(controller.remove(id)).resolves.toEqual(result);
+      expect(spy).toHaveBeenCalledWith(id);
       expect(spy).toHaveBeenCalledTimes(1);
     });
   });
