@@ -32,7 +32,7 @@ export class MemberService {
         idCardIssued,
       } = createMemberDto;
 
-      const member = await this.memberRepository.create({
+      const member = this.memberRepository.create({
         dateOfRegistration: dateOfRegistration,
         memberId: memberId,
         firstName: firstName,
@@ -44,7 +44,7 @@ export class MemberService {
         idCardIssued: idCardIssued,
       });
 
-      return await this.memberRepository.save(member);
+      return this.memberRepository.save(member);
     } catch (error) {
       return new BadRequestException();
     }
