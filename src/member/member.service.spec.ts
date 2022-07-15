@@ -141,5 +141,14 @@ describe('MemberService', () => {
       expect(service.findAll()).resolves.toEqual([]);
       expect(spy).toHaveBeenCalledTimes(1);
     });
+
+    it('should throw BadRequestException', async () => {
+      const spy = jest
+        .spyOn(repository, 'find')
+        .mockRejectedValue(new BadRequestException());
+
+      expect(service.findAll()).rejects.toThrow(BadRequestException);
+      expect(spy).toHaveBeenCalledTimes(1);
+    });
   });
 });
