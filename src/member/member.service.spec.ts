@@ -164,5 +164,15 @@ describe('MemberService', () => {
       expect(service.remove(id)).resolves.toEqual(deleteResult);
       expect(spy).toHaveBeenCalledWith(id);
     });
+    it('should throw NotFoundException', async () => {
+      const id = 'id';
+      const deleteResult = { affected: 0 } as DeleteResult;
+      const spy = jest
+        .spyOn(repository, 'delete')
+        .mockRejectedValue(deleteResult);
+
+      expect(service.remove(id)).resolves.toThrow(NotFoundException);
+      expect(spy).toHaveBeenCalledWith(id);
+    });
   });
 });
