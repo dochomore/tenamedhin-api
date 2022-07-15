@@ -8,6 +8,7 @@ import { MemberService } from './member.service';
 const mockRepository = () => ({
   create: jest.fn(),
   save: jest.fn(),
+  findOneBy: jest.fn(),
 });
 
 describe('MemberService', () => {
@@ -97,6 +98,30 @@ describe('MemberService', () => {
 
       expect(service.create(dto)).rejects.toThrow(BadRequestException);
       expect(createSpy).toHaveBeenCalled();
+    });
+  });
+
+  describe('findOne', () => {
+    it('should return a member', async () => {
+      const id = 'id';
+      const result: Member = {
+        memberUid: '',
+        dateOfRegistration: '',
+        memberId: '',
+        firstName: '',
+        fatherName: '',
+        gfName: '',
+        gender: '',
+        age: 0,
+        willPay: false,
+        idCardIssued: false,
+      };
+      const findOneSpy = jest
+        .spyOn(repository, 'findOneBy')
+        .mockResolvedValue(result);
+
+      expect(service.findOne(id)).resolves.toEqual(result);
+      expect(findOneSpy).toHaveBeenCalledWith({ memberUid: id });
     });
   });
 });
