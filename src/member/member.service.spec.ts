@@ -35,7 +35,7 @@ describe('MemberService', () => {
       const dto: any = {
         dateOfRegistration: '',
         firstName: 'Yimesgen',
-        fatherName: '',
+        fatherName: 'Morka',
         gfName: '',
         gender: '',
         age: 0,
@@ -47,7 +47,7 @@ describe('MemberService', () => {
         dateOfRegistration: '',
         memberId: '',
         firstName: 'Yimesgen',
-        fatherName: '',
+        fatherName: 'Morka',
         gfName: '',
         gender: '',
         age: 0,
@@ -65,11 +65,11 @@ describe('MemberService', () => {
       const dto = {
         dateOfRegistration: '',
         firstName: '',
-        fatherName: '',
-        gfName: '',
-        gender: '',
-        age: 0,
-        willPay: false,
+        fatherName: 'Morka',
+        gfName: 'Lidi',
+        gender: 'Male',
+        age: 28,
+        willPay: true,
       };
 
       expect(service.create(dto)).resolves.toThrow(BadRequestException);
