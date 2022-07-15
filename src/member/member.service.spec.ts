@@ -1,7 +1,7 @@
+import { BadRequestException } from '@nestjs/common';
 import { Test, TestingModule } from '@nestjs/testing';
 import { getRepositoryToken } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { CreateMemberDto } from './dto/create-member.dto';
 import { Member } from './entities/member.entity';
 import { MemberService } from './member.service';
 
@@ -34,7 +34,7 @@ describe('MemberService', () => {
     it('should create member', async () => {
       const dto: any = {
         dateOfRegistration: '',
-        firstName: '',
+        firstName: 'Yimesgen',
         fatherName: '',
         gfName: '',
         gender: '',
@@ -42,11 +42,11 @@ describe('MemberService', () => {
         willPay: false,
       };
 
-      const member: any = {
+      const member = {
         memberUid: '',
         dateOfRegistration: '',
         memberId: '',
-        firstName: '',
+        firstName: 'Yimesgen',
         fatherName: '',
         gfName: '',
         gender: '',
@@ -54,7 +54,6 @@ describe('MemberService', () => {
         willPay: false,
         idCardIssued: false,
       };
-
       const saveSpy = jest.spyOn(repository, 'save').mockResolvedValue(member);
 
       expect(service.create(dto)).resolves.toEqual(member);
@@ -62,6 +61,18 @@ describe('MemberService', () => {
       expect(saveSpy).toHaveBeenCalledTimes(1);
     });
 
-    it('should throw [BadRequestException] if first name were not provided', async () => {});
+    it('should throw [BadRequestException] if first name were not provided', async () => {
+      const dto = {
+        dateOfRegistration: '',
+        firstName: '',
+        fatherName: '',
+        gfName: '',
+        gender: '',
+        age: 0,
+        willPay: false,
+      };
+
+      expect(service.create(dto)).resolves.toThrow(BadRequestException);
+    });
   });
 });

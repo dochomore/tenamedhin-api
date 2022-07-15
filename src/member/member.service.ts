@@ -32,6 +32,10 @@ export class MemberService {
         idCardIssued,
       } = createMemberDto;
 
+      if (!firstName) {
+        throw new BadRequestException();
+      }
+
       const member = this.memberRepository.create({
         dateOfRegistration: dateOfRegistration,
         memberId: memberId,
