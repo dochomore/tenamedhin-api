@@ -9,6 +9,7 @@ const mockRepository = () => ({
   create: jest.fn(),
   save: jest.fn(),
   findOneBy: jest.fn(),
+  find: jest.fn(),
 });
 
 describe('MemberService', () => {
@@ -131,6 +132,14 @@ describe('MemberService', () => {
 
       expect(service.findOne(id)).resolves.toThrow(NotFoundException);
       expect(spy).toHaveBeenCalled();
+    });
+  });
+
+  describe('findAll', () => {
+    it('should return list of members', async () => {
+      const spy = jest.spyOn(repository, 'find').mockResolvedValue([]);
+      expect(service.findAll()).resolves.toEqual([]);
+      expect(spy).toHaveBeenCalledTimes(1);
     });
   });
 });
