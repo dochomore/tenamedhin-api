@@ -1,3 +1,4 @@
+import { BadRequestException } from '@nestjs/common';
 import { Test, TestingModule } from '@nestjs/testing';
 import { getRepositoryToken } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
@@ -58,6 +59,44 @@ describe('MemberService', () => {
       expect(service.create(dto)).resolves.toEqual(member);
       expect(saveSpy).toHaveBeenCalled();
       expect(saveSpy).toHaveBeenCalledTimes(1);
+    });
+
+    it('should throw [BadRequestException] something bad happens', async () => {
+      const dto: any = {
+        dateOfRegistration: '',
+        firstName: 'Yimesgen',
+        fatherName: 'Morka',
+        gfName: '',
+        gender: '',
+        age: 0,
+        willPay: false,
+      };
+
+      const member: any = {
+        memberUid: '',
+        dateOfRegistration: '',
+        memberId: '',
+        firstName: 'Yimesgen',
+        fatherName: 'Morka',
+        gfName: '',
+        gender: '',
+        age: 0,
+        willPay: false,
+        idCardIssued: false,
+      };
+
+      const createSpy = jest
+        .spyOn(repository, 'create')
+        .mockImplementation(() => {
+          return member;
+        });
+
+      jest
+        .spyOn(repository, 'save')
+        .mockRejectedValue(new BadRequestException());
+
+      expect(service.create(dto)).rejects.toThrow(BadRequestException);
+      expect(createSpy).toHaveBeenCalled();
     });
   });
 });
