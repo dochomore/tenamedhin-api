@@ -1,7 +1,7 @@
-import { BadRequestException } from '@nestjs/common';
+import { BadRequestException, NotFoundException } from '@nestjs/common';
 import { Test, TestingModule } from '@nestjs/testing';
 import { getRepositoryToken } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
+import { Repository, RepositoryNotTreeError } from 'typeorm';
 import { Member } from './entities/member.entity';
 import { MemberService } from './member.service';
 
@@ -122,6 +122,15 @@ describe('MemberService', () => {
 
       expect(service.findOne(id)).resolves.toEqual(result);
       expect(findOneSpy).toHaveBeenCalledWith({ memberUid: id });
+    });
+    it('should throw NotFoundException for invalid id', async () => {
+      const id = 'id';
+      const spy = jest
+        .spyOn(repository, 'findOneBy')
+        .mockImplementation(() => null);
+
+      expect(service.findOne(id)).resolves.toThrow(NotFoundException);
+      expect(spy).toHaveBeenCalled();
     });
   });
 });
