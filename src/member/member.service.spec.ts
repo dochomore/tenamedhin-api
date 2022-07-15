@@ -1,7 +1,7 @@
 import { BadRequestException, NotFoundException } from '@nestjs/common';
 import { Test, TestingModule } from '@nestjs/testing';
 import { getRepositoryToken } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
+import { DeleteResult, Repository } from 'typeorm';
 import { Member } from './entities/member.entity';
 import { MemberService } from './member.service';
 
@@ -10,6 +10,7 @@ const mockRepository = () => ({
   save: jest.fn(),
   findOneBy: jest.fn(),
   find: jest.fn(),
+  delete: jest.fn(),
 });
 
 describe('MemberService', () => {
@@ -149,6 +150,19 @@ describe('MemberService', () => {
 
       expect(service.findAll()).rejects.toThrow(BadRequestException);
       expect(spy).toHaveBeenCalledTimes(1);
+    });
+  });
+
+  describe('remove', () => {
+    it('should delete member', async () => {
+      const id = 'id';
+      const deleteResult = { affected: 1 } as DeleteResult;
+      const spy = jest
+        .spyOn(repository, 'delete')
+        .mockResolvedValue(deleteResult);
+
+      expect(service.remove(id)).resolves.toEqual(deleteResult);
+      expect(spy).toHaveBeenCalledWith(id);
     });
   });
 });
