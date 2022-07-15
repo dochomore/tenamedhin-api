@@ -1,4 +1,3 @@
-import { BadRequestException } from '@nestjs/common';
 import { Test, TestingModule } from '@nestjs/testing';
 import { getRepositoryToken } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
@@ -59,20 +58,6 @@ describe('MemberService', () => {
       expect(service.create(dto)).resolves.toEqual(member);
       expect(saveSpy).toHaveBeenCalled();
       expect(saveSpy).toHaveBeenCalledTimes(1);
-    });
-
-    it('should throw [BadRequestException] if first name were not provided', async () => {
-      const dto = {
-        dateOfRegistration: '',
-        firstName: '',
-        fatherName: 'Morka',
-        gfName: 'Lidi',
-        gender: 'Male',
-        age: 28,
-        willPay: true,
-      };
-
-      expect(service.create(dto)).resolves.toThrow(BadRequestException);
     });
   });
 });

@@ -32,14 +32,6 @@ export class MemberService {
         idCardIssued,
       } = createMemberDto;
 
-      if (!firstName) {
-        throw new BadRequestException();
-      }
-
-      if (!fatherName) {
-        throw new BadRequestException('father name is required');
-      }
-
       const member = this.memberRepository.create({
         dateOfRegistration: dateOfRegistration,
         memberId: memberId,
