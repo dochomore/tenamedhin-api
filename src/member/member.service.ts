@@ -44,7 +44,11 @@ export class MemberService {
         idCardIssued: idCardIssued,
       });
 
-      return this.memberRepository.save(member);
+      const result = this.memberRepository.save(member);
+      if (!result) {
+        throw new BadRequestException();
+      }
+      return result;
     } catch (error) {
       return new BadRequestException();
     }

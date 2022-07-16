@@ -95,11 +95,9 @@ describe('MemberService', () => {
           return member;
         });
 
-      jest
-        .spyOn(repository, 'save')
-        .mockRejectedValue(new BadRequestException());
+      jest.spyOn(repository, 'save').mockImplementation(() => undefined);
 
-      expect(service.create(dto)).rejects.toThrow(BadRequestException);
+      expect(service.create(dto)).resolves.toThrow(BadRequestException);
       expect(createSpy).toHaveBeenCalled();
     });
   });
@@ -190,7 +188,7 @@ describe('MemberService', () => {
       const deleteResult = { affected: 0 } as DeleteResult;
       const spy = jest
         .spyOn(repository, 'delete')
-        .mockRejectedValue(deleteResult);
+        .mockImplementation(async () => deleteResult);
 
       expect(service.remove(id)).resolves.toThrow(NotFoundException);
       expect(spy).toHaveBeenCalledWith(id);
