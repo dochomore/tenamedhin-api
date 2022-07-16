@@ -1,11 +1,12 @@
 import { BadRequestException, NotFoundException } from '@nestjs/common';
 import { Test, TestingModule } from '@nestjs/testing';
 import { getRepositoryToken } from '@nestjs/typeorm';
-import { DeleteResult, Repository } from 'typeorm';
+import { DeleteResult, Repository, UpdateResult } from 'typeorm';
 import { Member } from './entities/member.entity';
 import { MemberService } from './member.service';
 
 const mockRepository = () => ({
+  update: jest.fn(),
   create: jest.fn(),
   save: jest.fn(),
   findOneBy: jest.fn(),
@@ -153,6 +154,16 @@ describe('MemberService', () => {
     });
   });
 
+  describe('update', () => {
+    it('should update member', async () => {
+      const id = 'id';
+      const dto = {};
+      const result = { affected: 1 } as UpdateResult;
+      const spy = jest.spyOn(repository, 'update').mockResolvedValue(result);
+      expect(service.update(id, dto)).resolves.toEqual(result);
+      expect(spy).toHaveBeenCalled();
+    });
+  });
   describe('remove', () => {
     it('should delete member', async () => {
       const id = 'id';
