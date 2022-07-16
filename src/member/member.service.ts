@@ -52,7 +52,11 @@ export class MemberService {
 
   async findAll() {
     try {
-      return this.memberRepository.find();
+      const result = await this.memberRepository.find();
+      if (!result) {
+        throw new BadRequestException();
+      }
+      return result;
     } catch (error) {
       return new BadRequestException();
     }

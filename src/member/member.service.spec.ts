@@ -147,9 +147,9 @@ describe('MemberService', () => {
     it('should throw BadRequestException', async () => {
       const spy = jest
         .spyOn(repository, 'find')
-        .mockRejectedValue(new BadRequestException());
+        .mockImplementation(() => undefined);
 
-      expect(service.findAll()).rejects.toThrow(BadRequestException);
+      expect(service.findAll()).resolves.toThrow(BadRequestException);
       expect(spy).toHaveBeenCalledTimes(1);
     });
   });
@@ -172,6 +172,7 @@ describe('MemberService', () => {
       expect(spy).toHaveBeenCalled();
     });
   });
+
   describe('remove', () => {
     it('should delete member', async () => {
       const id = 'id';
@@ -183,6 +184,7 @@ describe('MemberService', () => {
       expect(service.remove(id)).resolves.toEqual(deleteResult);
       expect(spy).toHaveBeenCalledWith(id);
     });
+
     it('should throw NotFoundException', async () => {
       const id = 'id';
       const deleteResult = { affected: 0 } as DeleteResult;
