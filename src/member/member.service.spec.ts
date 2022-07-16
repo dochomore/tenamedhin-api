@@ -163,6 +163,14 @@ describe('MemberService', () => {
       expect(service.update(id, dto)).resolves.toEqual(result);
       expect(spy).toHaveBeenCalled();
     });
+    it('should throw NotFoundException', async () => {
+      const id = 'id';
+      const dto = {};
+      const result = { affected: 0 } as UpdateResult;
+      const spy = jest.spyOn(repository, 'update').mockResolvedValue(result);
+      expect(service.update(id, dto)).resolves.toThrow(NotFoundException);
+      expect(spy).toHaveBeenCalled();
+    });
   });
   describe('remove', () => {
     it('should delete member', async () => {
