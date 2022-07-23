@@ -22,6 +22,7 @@ import { Familymember } from './member/familymember/entities/familymember.entity
 import { RelationshipModule } from './relationship/relationship.module';
 import { Relationship } from './relationship/entities/relationship.entity';
 import { UserModule } from './user/user.module';
+import { AuthenticationModule } from './authentication/authentication.module';
 
 @Module({
   imports: [
@@ -56,6 +57,7 @@ import { UserModule } from './user/user.module';
     OrganizationModule,
     RelationshipModule,
     UserModule,
+    AuthenticationModule,
   ],
   controllers: [AppController],
   providers: [AppService],
