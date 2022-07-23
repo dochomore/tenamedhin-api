@@ -23,6 +23,7 @@ import { RelationshipModule } from './relationship/relationship.module';
 import { Relationship } from './relationship/entities/relationship.entity';
 import { UserModule } from './user/user.module';
 import { AuthenticationModule } from './authentication/authentication.module';
+import { User } from './user/entities/user.entity';
 
 @Module({
   imports: [
@@ -47,6 +48,7 @@ import { AuthenticationModule } from './authentication/authentication.module';
         Organization,
         Familymember,
         Relationship,
+        User,
       ],
       synchronize: true,
     }),
