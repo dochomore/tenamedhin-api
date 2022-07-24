@@ -24,6 +24,7 @@ import { Relationship } from './relationship/entities/relationship.entity';
 import { UserModule } from './user/user.module';
 import { AuthenticationModule } from './authentication/authentication.module';
 import { User } from './user/entities/user.entity';
+import { Woreda } from './woreda/entities/woreda.entity';
 
 @Module({
   imports: [
@@ -49,6 +50,7 @@ import { User } from './user/entities/user.entity';
         Familymember,
         Relationship,
         User,
+        Woreda,
       ],
       synchronize: true,
     }),
