@@ -1,5 +1,10 @@
-import { BadRequestException, Injectable } from '@nestjs/common';
+import {
+  BadRequestException,
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
+import { NotFoundError } from 'rxjs';
 import { Repository } from 'typeorm';
 import { CreateWoredaDto } from './dto/create-woreda.dto';
 import { UpdateWoredaDto } from './dto/update-woreda.dto';
@@ -25,8 +30,16 @@ export class WoredaService {
     }
   }
 
-  findAll() {
-    return `This action returns all woreda`;
+  async findAll() {
+    try {
+      const results = await this.woredaRepository.find();
+      if (!results) {
+        throw new NotFoundException();
+      }
+      return results;
+    } catch (error) {
+      return new NotFoundException();
+    }
   }
 
   findOne(id: number) {
