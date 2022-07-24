@@ -1,4 +1,12 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Patch,
+  Param,
+  Delete,
+} from '@nestjs/common';
 import { WoredaService } from './woreda.service';
 import { CreateWoredaDto } from './dto/create-woreda.dto';
 import { UpdateWoredaDto } from './dto/update-woreda.dto';
@@ -29,6 +37,6 @@ export class WoredaController {
 
   @Delete(':id')
   remove(@Param('id') id: string) {
-    return this.woredaService.remove(+id);
+    return this.woredaService.remove(id);
   }
 }
