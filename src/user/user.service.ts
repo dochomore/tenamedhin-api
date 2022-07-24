@@ -1,4 +1,8 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import {
+  BadRequestException,
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { DeleteResult, Repository, UpdateResult } from 'typeorm';
 import { CreateUserDto } from './dto/create-user.dto';
@@ -10,8 +14,20 @@ export class UserService {
   constructor(
     @InjectRepository(User) private readonly userRepository: Repository<User>,
   ) {}
-  create(createUserDto: CreateUserDto) {
-    return 'This action adds a new user';
+  async create(createUserDto: CreateUserDto) {
+    try {
+      const user = await this.userRepository.create({ ...createUserDto });
+
+      const saved = await this.userRepository.save(user);
+      if (!saved) {
+        throw new BadRequestException();
+      }
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      const { password, ...otherAttrs } = saved;
+      return otherAttrs;
+    } catch (error) {
+      return new BadRequestException();
+    }
   }
 
   async findAll(): Promise<User[] | NotFoundException> {
