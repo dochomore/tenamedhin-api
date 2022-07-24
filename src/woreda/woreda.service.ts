@@ -66,5 +66,15 @@ export class WoredaService {
     }
   }
 
-  async remove(id: number) {}
+  async remove(id: number) {
+    try {
+      const result = await this.woredaRepository.delete(id);
+      if (result.affected === 0) {
+        throw new NotFoundException();
+      }
+      return result;
+    } catch (error) {
+      return new NotFoundException();
+    }
+  }
 }
