@@ -14,16 +14,19 @@ export class UserService {
   constructor(
     @InjectRepository(User) private readonly userRepository: Repository<User>,
   ) {}
+
   async create(createUserDto: CreateUserDto) {
     try {
-      const user = await this.userRepository.create({ ...createUserDto });
+      const user: User = await this.userRepository.create({ ...createUserDto });
+      const saved: User = await this.userRepository.save(user);
 
-      const saved = await this.userRepository.save(user);
       if (!saved) {
         throw new BadRequestException();
       }
+
       // eslint-disable-next-line @typescript-eslint/no-unused-vars
       const { password, ...otherAttrs } = saved;
+
       return otherAttrs;
     } catch (error) {
       return new BadRequestException();
@@ -32,10 +35,12 @@ export class UserService {
 
   async findAll(): Promise<User[] | NotFoundException> {
     try {
-      const result = await this.userRepository.find();
+      const result: User[] = await this.userRepository.find();
+
       if (!result) {
         throw new NotFoundException();
       }
+
       return result;
     } catch (error) {
       return new NotFoundException();
@@ -44,12 +49,14 @@ export class UserService {
 
   async findOneById(id: string): Promise<User | NotFoundException> {
     try {
-      const result = await this.userRepository.findOneBy({
+      const result: User = await this.userRepository.findOneBy({
         userId: id,
       });
+
       if (!result) {
         throw new NotFoundException();
       }
+
       return result;
     } catch (error) {
       return new NotFoundException();
@@ -58,12 +65,14 @@ export class UserService {
 
   async findOneByUsername(username: string): Promise<User | NotFoundException> {
     try {
-      const result = await this.userRepository.findOneBy({
+      const result: User = await this.userRepository.findOneBy({
         username: username,
       });
+
       if (!result) {
         throw new NotFoundException();
       }
+
       return result;
     } catch (error) {
       return new NotFoundException();
@@ -75,12 +84,14 @@ export class UserService {
     updateUserDto: UpdateUserDto,
   ): Promise<UpdateResult | NotFoundException> {
     try {
-      const updateResult = await this.userRepository.update(id, {
+      const updateResult: UpdateResult = await this.userRepository.update(id, {
         ...updateUserDto,
       });
+
       if (updateResult.affected === 0) {
         throw new NotFoundException();
       }
+
       return updateResult;
     } catch (error) {
       return new NotFoundException();
@@ -89,10 +100,12 @@ export class UserService {
 
   async remove(id: string): Promise<DeleteResult | NotFoundException> {
     try {
-      const deleteResult = await this.userRepository.delete(id);
+      const deleteResult: DeleteResult = await this.userRepository.delete(id);
+
       if (deleteResult.affected === 0) {
         throw new NotFoundException();
       }
+
       return deleteResult;
     } catch (error) {
       return new NotFoundException();
