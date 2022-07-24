@@ -42,8 +42,16 @@ export class WoredaService {
     }
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} woreda`;
+  async findOne(id: string) {
+    try {
+      const result = await this.woredaRepository.findOneBy({ woredaId: id });
+      if (!result) {
+        throw new NotFoundException();
+      }
+      return result;
+    } catch (error) {
+      return new BadRequestException();
+    }
   }
 
   update(id: number, updateWoredaDto: UpdateWoredaDto) {

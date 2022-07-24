@@ -19,7 +19,7 @@ export class WoredaController {
 
   @Get(':id')
   findOne(@Param('id') id: string) {
-    return this.woredaService.findOne(+id);
+    return this.woredaService.findOne(id);
   }
 
   @Patch(':id')
