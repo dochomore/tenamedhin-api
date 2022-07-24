@@ -13,5 +13,4 @@ export class User {
   @Column()
   @IsDefined()
   password: string;
-
 }
