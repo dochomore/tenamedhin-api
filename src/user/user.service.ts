@@ -14,8 +14,16 @@ export class UserService {
     return 'This action adds a new user';
   }
 
-  findAll() {
-    return `This action returns all user`;
+  async findAll(): Promise<User[] | NotFoundException> {
+    try {
+      const result = await this.userRepository.find();
+      if (!result) {
+        throw new NotFoundException();
+      }
+      return result;
+    } catch (error) {
+      return new NotFoundException();
+    }
   }
 
   async findOneById(id: string): Promise<User | NotFoundException> {
