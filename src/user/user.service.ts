@@ -22,8 +22,18 @@ export class UserService {
     return `This action returns a #${id} user`;
   }
 
-  findOneByUsername(username: string) {
-    return `This action returns a #${username} user`;
+  async findOneByUsername(username: string): Promise<User | NotFoundException> {
+    try {
+      const result = await this.userRepository.findOneBy({
+        username: username,
+      });
+      if (!result) {
+        throw new NotFoundException();
+      }
+      return result;
+    } catch (error) {
+      return new NotFoundException();
+    }
   }
 
   async update(
