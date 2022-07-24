@@ -24,7 +24,7 @@ export class WoredaController {
 
   @Patch(':id')
   update(@Param('id') id: string, @Body() updateWoredaDto: UpdateWoredaDto) {
-    return this.woredaService.update(+id, updateWoredaDto);
+    return this.woredaService.update(id, updateWoredaDto);
   }
 
   @Delete(':id')

@@ -54,11 +54,17 @@ export class WoredaService {
     }
   }
 
-  update(id: number, updateWoredaDto: UpdateWoredaDto) {
-    return `This action updates a #${id} woreda`;
+  async update(id: string, updateWoredaDto: UpdateWoredaDto) {
+    try {
+      const result = await this.woredaRepository.update(id, updateWoredaDto);
+      if (result.affected === 0) {
+        throw new NotFoundException();
+      }
+      return result;
+    } catch (error) {
+      return new NotFoundException();
+    }
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} woreda`;
-  }
+  async remove(id: number) {}
 }
