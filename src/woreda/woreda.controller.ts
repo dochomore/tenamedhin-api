@@ -6,6 +6,7 @@ import {
   Patch,
   Param,
   Delete,
+  ParseUUIDPipe,
 } from '@nestjs/common';
 import { WoredaService } from './woreda.service';
 import { CreateWoredaDto } from './dto/create-woreda.dto';
@@ -26,17 +27,20 @@ export class WoredaController {
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string) {
+  findOne(@Param('id', new ParseUUIDPipe()) id: string) {
     return this.woredaService.findOne(id);
   }
 
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateWoredaDto: UpdateWoredaDto) {
+  update(
+    @Param('id', new ParseUUIDPipe()) id: string,
+    @Body() updateWoredaDto: UpdateWoredaDto,
+  ) {
     return this.woredaService.update(id, updateWoredaDto);
   }
 
   @Delete(':id')
-  remove(@Param('id') id: string) {
+  remove(@Param('id', new ParseUUIDPipe()) id: string) {
     return this.woredaService.remove(id);
   }
 }

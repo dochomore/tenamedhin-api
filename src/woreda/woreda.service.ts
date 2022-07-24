@@ -4,7 +4,6 @@ import {
   NotFoundException,
 } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { NotFoundError } from 'rxjs';
 import { Repository } from 'typeorm';
 import { CreateWoredaDto } from './dto/create-woreda.dto';
 import { UpdateWoredaDto } from './dto/update-woreda.dto';
