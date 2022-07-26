@@ -4,7 +4,7 @@ import {
   NotFoundException,
 } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
+import { DeleteResult, Repository, UpdateResult } from 'typeorm';
 import { CreateWoredaDto } from './dto/create-woreda.dto';
 import { UpdateWoredaDto } from './dto/update-woreda.dto';
 import { Woreda } from './entities/woreda.entity';
@@ -16,7 +16,9 @@ export class WoredaService {
     private readonly woredaRepository: Repository<Woreda>,
   ) {}
 
-  async create(createWoredaDto: CreateWoredaDto) {
+  async create(
+    createWoredaDto: CreateWoredaDto,
+  ): Promise<Woreda | BadRequestException> {
     try {
       const woreda = await this.woredaRepository.create({ ...createWoredaDto });
       const result = await this.woredaRepository.save(woreda);
@@ -29,7 +31,7 @@ export class WoredaService {
     }
   }
 
-  async findAll() {
+  async findAll(): Promise<NotFoundException | Woreda[]> {
     try {
       const results = await this.woredaRepository.find();
       if (!results) {
@@ -41,7 +43,7 @@ export class WoredaService {
     }
   }
 
-  async findOne(id: string) {
+  async findOne(id: string): Promise<NotFoundException | Woreda> {
     try {
       const result = await this.woredaRepository.findOneBy({ woredaId: id });
       if (!result) {
@@ -53,7 +55,10 @@ export class WoredaService {
     }
   }
 
-  async update(id: string, updateWoredaDto: UpdateWoredaDto) {
+  async update(
+    id: string,
+    updateWoredaDto: UpdateWoredaDto,
+  ): Promise<UpdateResult | NotFoundException> {
     try {
       const result = await this.woredaRepository.update(id, updateWoredaDto);
       if (result.affected === 0) {
@@ -65,9 +70,9 @@ export class WoredaService {
     }
   }
 
-  async remove(id: string) {
+  async remove(id: string): Promise<DeleteResult | NotFoundException> {
     try {
-      const result = await this.woredaRepository.delete(id);
+      const result: DeleteResult = await this.woredaRepository.delete(id);
       if (result.affected === 0) {
         throw new NotFoundException();
       }
