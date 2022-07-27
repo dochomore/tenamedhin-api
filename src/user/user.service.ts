@@ -45,7 +45,7 @@ export class UserService {
     }
   }
 
-  async findAll(): Promise<User[] | NotFoundException> {
+  async findAll() {
     try {
       const result: User[] = await this.userRepository.find();
 
@@ -53,7 +53,13 @@ export class UserService {
         throw new NotFoundException();
       }
 
-      return result;
+      const users = result.map((user: User) => {
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
+        const { password, ...others } = user;
+        return others;
+      });
+
+      return users;
     } catch (error) {
       return new NotFoundException();
     }
