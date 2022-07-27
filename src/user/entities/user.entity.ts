@@ -1,6 +1,10 @@
 import { IsDefined } from 'class-validator';
 import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
 
+/**
+ * Tena medhin system user
+ */
+
 @Entity()
 export class User {
   @PrimaryGeneratedColumn('uuid')
@@ -12,5 +16,24 @@ export class User {
 
   @Column()
   @IsDefined()
+  firstName: string;
+
+  @Column()
+  @IsDefined()
+  fatherName: string;
+
+  @Column()
+  @IsDefined()
+  createdAt: string;
+
+  @Column()
+  @IsDefined()
+  updatedAt: string;
+
+  @Column()
+  @IsDefined()
   password: string;
+
+  @Column({ nullable: true })
+  imageUrl: string;
 }
