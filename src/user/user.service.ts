@@ -59,7 +59,7 @@ export class UserService {
     }
   }
 
-  async findOneById(id: string): Promise<User | NotFoundException> {
+  async findOneById(id: string) {
     try {
       const result: User = await this.userRepository.findOneBy({
         userId: id,
@@ -69,7 +69,9 @@ export class UserService {
         throw new NotFoundException();
       }
 
-      return result;
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      const { password, ...others } = result;
+      return others;
     } catch (error) {
       return new NotFoundException();
     }
