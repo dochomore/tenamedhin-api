@@ -16,18 +16,18 @@ export class UserService {
     @InjectRepository(User) private readonly userRepository: Repository<User>,
   ) {}
 
-  hashPassword = (password: string) => {
+  encrypt = async (password: string) => {
     const salt = bcrypt.genSaltSync();
     return bcrypt.hashSync(password, salt);
   };
 
   async create(createUserDto: CreateUserDto) {
     try {
-      const generatedPassword = this.hashPassword(createUserDto.password);
+      const hashedValue = await this.encrypt(createUserDto.password);
 
       const user: User = await this.userRepository.create({
         ...createUserDto,
-        password: generatedPassword,
+        password: hashedValue,
       });
 
       const saved: User = await this.userRepository.save(user);
