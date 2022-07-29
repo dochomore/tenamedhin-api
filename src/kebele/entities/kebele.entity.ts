@@ -10,4 +10,19 @@ export class Kebele {
 
   @Column({ unique: true })
   code: string;
+
+  @Column()
+  createdAt: string;
+
+  @Column()
+  updatedAt: string;
+
+  @Column()
+  createdBy: string;
+
+  @Column()
+  updatedBy: string;
+
+  @Column()
+  woredaId: string;
 }
