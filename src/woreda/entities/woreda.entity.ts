@@ -1,8 +1,7 @@
-import { User } from 'src/user/entities/user.entity';
 import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
 
 /**
- * represents government addminstrative Woreda
+ * represents government addminstrative Unit called woreda
  */
 
 @Entity()

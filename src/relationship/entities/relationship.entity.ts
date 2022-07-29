@@ -10,4 +10,10 @@ export class Relationship {
 
   @Column()
   relationName: string;
+
+  @Column({ type: 'timestamptz' })
+  createdAt: string;
+
+  @Column({ type: 'timestamptz' })
+  updatedAt: string;
 }
