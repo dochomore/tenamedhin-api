@@ -10,4 +10,13 @@ export class Hospital {
 
   @Column({ unique: true })
   code: string;
+
+  @Column()
+  woredaId: string;
+
+  @Column()
+  createdBy: string;
+
+  @Column()
+  updatedBy: string;
 }
