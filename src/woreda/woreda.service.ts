@@ -7,18 +7,18 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { DeleteResult, Repository, UpdateResult } from 'typeorm';
 import { CreateWoredaDto } from './dto/create-woreda.dto';
 import { UpdateWoredaDto } from './dto/update-woreda.dto';
-import { Woreda } from './entities/woreda.entity';
+import { WoredaOffice } from './entities/woreda.entity';
 
 @Injectable()
 export class WoredaService {
   constructor(
-    @InjectRepository(Woreda)
-    private readonly woredaRepository: Repository<Woreda>,
+    @InjectRepository(WoredaOffice)
+    private readonly woredaRepository: Repository<WoredaOffice>,
   ) {}
 
   async create(
     createWoredaDto: CreateWoredaDto,
-  ): Promise<Woreda | BadRequestException> {
+  ): Promise<WoredaOffice | BadRequestException> {
     try {
       const woreda = await this.woredaRepository.create({ ...createWoredaDto });
       const result = await this.woredaRepository.save(woreda);
@@ -31,7 +31,7 @@ export class WoredaService {
     }
   }
 
-  async findAll(): Promise<NotFoundException | Woreda[]> {
+  async findAll(): Promise<NotFoundException | WoredaOffice[]> {
     try {
       const results = await this.woredaRepository.find();
       if (!results) {
@@ -43,7 +43,7 @@ export class WoredaService {
     }
   }
 
-  async findOne(id: string): Promise<NotFoundException | Woreda> {
+  async findOne(id: string): Promise<NotFoundException | WoredaOffice> {
     try {
       const result = await this.woredaRepository.findOneBy({ woredaId: id });
       if (!result) {

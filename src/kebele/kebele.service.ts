@@ -7,13 +7,13 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { DeleteResult, Repository, UpdateResult } from 'typeorm';
 import { CreateKebeleDto } from './dto/create-kebele.dto';
 import { UpdateKebeleDto } from './dto/update-kebele.dto';
-import { Kebele } from './entities/kebele.entity';
+import { KebeleOffice } from './entities/kebele.entity';
 
 @Injectable()
 export class KebeleService {
   constructor(
-    @InjectRepository(Kebele)
-    private readonly kebeleRepository: Repository<Kebele>,
+    @InjectRepository(KebeleOffice)
+    private readonly kebeleRepository: Repository<KebeleOffice>,
   ) {}
   async create(createKebeleDto: CreateKebeleDto) {
     const { name, code } = createKebeleDto;

@@ -7,7 +7,7 @@ import { HospitalModule } from './hospital/hospital.module';
 import { ConfigModule } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { CreditModule } from './credit/credit.module';
-import { Kebele } from './kebele/entities/kebele.entity';
+import { KebeleOffice } from './kebele/entities/kebele.entity';
 import { WoredaModule } from './woreda/woreda.module';
 import { Hospital } from './hospital/entities/hospital.entity';
 import { Healthcare } from './healthcare/entities/healthcare.entity';
@@ -24,7 +24,7 @@ import { Relationship } from './relationship/entities/relationship.entity';
 import { UserModule } from './user/user.module';
 import { AuthenticationModule } from './authentication/authentication.module';
 import { User } from './user/entities/user.entity';
-import { Woreda } from './woreda/entities/woreda.entity';
+import { WoredaOffice } from './woreda/entities/woreda.entity';
 
 @Module({
   imports: [
@@ -40,7 +40,7 @@ import { Woreda } from './woreda/entities/woreda.entity';
       password: process.env.DATABASE_PASSWORD,
       database: process.env.DATABASE_NAME,
       entities: [
-        Kebele,
+        KebeleOffice,
         Hospital,
         Healthcare,
         Credit,
@@ -50,7 +50,7 @@ import { Woreda } from './woreda/entities/woreda.entity';
         Familymember,
         Relationship,
         User,
-        Woreda,
+        WoredaOffice,
       ],
       synchronize: true,
     }),

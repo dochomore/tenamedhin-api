@@ -1,7 +1,9 @@
 import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
-
+/**
+ * Government adminstrative unit Kebele
+ */
 @Entity()
-export class Kebele {
+export class KebeleOffice {
   @PrimaryGeneratedColumn('uuid')
   kebeleId: string;
 

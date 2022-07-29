@@ -5,7 +5,7 @@ import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
  */
 
 @Entity()
-export class Woreda {
+export class WoredaOffice {
   @PrimaryGeneratedColumn('uuid')
   woredaId: string;
 
