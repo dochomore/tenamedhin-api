@@ -16,9 +16,9 @@ export class UserService {
     @InjectRepository(User) private readonly userRepository: Repository<User>,
   ) {}
 
-  encrypt = async (password: string) => {
+  encrypt = async (value: string) => {
     const salt = bcrypt.genSaltSync();
-    return bcrypt.hashSync(password, salt);
+    return bcrypt.hashSync(value, salt);
   };
 
   async create(createUserDto: CreateUserDto) {
