@@ -8,9 +8,15 @@ export class Organization {
   @PrimaryGeneratedColumn('uuid')
   organizationUUID: string;
 
-  @Column({ type: 'timestamptz' })
-  dateOfCreation: Date;
-
   @Column({ unique: true })
   organizationName: string;
+
+  @Column({ unique: true })
+  organizationCode: string;
+
+  @Column({ type: 'timestamptz' })
+  createdAt: Date;
+
+  @Column({ type: 'timestamptz' })
+  updatedAt: string;
 }

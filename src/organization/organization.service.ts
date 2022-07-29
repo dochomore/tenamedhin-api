@@ -20,7 +20,7 @@ export class OrganizationService {
     try {
       const { dateOfCreation, organizationName } = createOrganizationDto;
       const result = this.orgRepository.create({
-        dateOfCreation: dateOfCreation,
+        createdAt: dateOfCreation,
         organizationName: organizationName,
       });
       return await this.orgRepository.save(result);
