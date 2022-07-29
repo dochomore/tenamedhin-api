@@ -6,11 +6,14 @@ import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
 @Entity()
 export class Job {
   @PrimaryGeneratedColumn('uuid')
-  jobUUID: string;
+  jobUId: string;
 
   @Column({ type: 'timestamptz', default: new Date() })
-  dateOfCreation: Date;
+  createdAt: Date;
 
   @Column({ unique: true })
   jobName: string;
+
+  @Column({ unique: true })
+  jobCode: string;
 }

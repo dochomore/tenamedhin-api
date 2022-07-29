@@ -18,7 +18,7 @@ export class JobService {
     try {
       const { dateOfCreation, jobName } = createJobDto;
       const job = this.jobRepository.create({
-        dateOfCreation: dateOfCreation,
+        createdAt: dateOfCreation,
         jobName: jobName,
       });
       return await this.jobRepository.save(job);
@@ -37,7 +37,7 @@ export class JobService {
 
   async findOne(id: string) {
     try {
-      const result = await this.jobRepository.findOneBy({ jobUUID: id });
+      const result = await this.jobRepository.findOneBy({ jobUId: id });
       if (!result) {
         throw new NotFoundException();
       }
@@ -51,7 +51,7 @@ export class JobService {
     try {
       const { dateOfCreation, jobName } = updateJobDto;
       const result: UpdateResult = await this.jobRepository.update(id, {
-        dateOfCreation: dateOfCreation,
+        createdAt: dateOfCreation,
         jobName: jobName,
       });
       if (result.affected === 0) {
