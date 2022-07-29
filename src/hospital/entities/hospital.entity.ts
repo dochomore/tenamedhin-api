@@ -19,4 +19,10 @@ export class Hospital {
 
   @Column()
   updatedBy: string;
+
+  @Column({ type: 'timestamptz' })
+  createdAt: string;
+
+  @Column({ type: 'timestamptz' })
+  updatedAt: string;
 }
