@@ -16,4 +16,7 @@ export class Job {
 
   @Column({ unique: true })
   jobCode: string;
+
+  @Column({ type: 'timestamptz' })
+  updatedAt: string;
 }
