@@ -1,6 +1,12 @@
-import { Injectable } from '@nestjs/common';
+import {
+  BadRequestException,
+  Injectable,
+  UnauthorizedException,
+} from '@nestjs/common';
+import { ConfigService } from '@nestjs/config';
 import { JwtService } from '@nestjs/jwt';
 import * as bcrypt from 'bcrypt';
+import { CreateUserDto } from 'src/user/dto/create-user.dto';
 import { User } from 'src/user/entities/user.entity';
 import { UserService } from 'src/user/user.service';
 
@@ -9,6 +15,7 @@ export class AuthenticationService {
   constructor(
     private readonly userService: UserService,
     private readonly jwtService: JwtService,
+    private readonly configService: ConfigService,
   ) {}
 
   async validateUser(username: string, password: string) {
@@ -24,7 +31,40 @@ export class AuthenticationService {
   }
 
   async login(user: User) {
-    const payload = { username: user.username, sub: user.userId };
-    return { access_token: this.jwtService.sign(payload) };
+    // const payload = { username: user.username, sub: user.userId };
+    // return { access_token: this.jwtService.sign(payload) };
+    try {
+      const tokens = await this.getTokens(user.userId, user.username);
+      await this.updateRefreshToken(user.userId, tokens.refreshToken);
+      return tokens;
+    } catch (err) {
+      return new UnauthorizedException();
+    }
+  }
+
+  async updateRefreshToken(userId: string, refreshToken: string) {
+    const hashedToken = await this.userService.encrypt(refreshToken);
+    return await this.userService.updateRefreshToken(userId, hashedToken);
+  }
+
+  async getTokens(userId: string, username: string) {
+    const [accessToken, refreshToken] = await Promise.all([
+      this.jwtService.signAsync(
+        { sub: userId, username },
+        {
+          secret: this.configService.get<string>('JWT_ACCESS_SECRET'),
+          expiresIn: '15m',
+        },
+      ),
+      this.jwtService.signAsync(
+        { sub: userId, username },
+        {
+          secret: this.configService.get<string>('JWT_REFRESH_SECRET'),
+          expiresIn: '7d',
+        },
+      ),
+    ]);
+
+    return { accessToken, refreshToken };
   }
 }

@@ -28,7 +28,7 @@ import { WoredaOffice } from './woreda/entities/woreda.entity';
 
 @Module({
   imports: [
-    ConfigModule.forRoot(),
+    ConfigModule.forRoot({ isGlobal: true }),
     KebeleModule,
     HealthcareModule,
     HospitalModule,

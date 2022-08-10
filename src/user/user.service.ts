@@ -118,6 +118,25 @@ export class UserService {
     }
   }
 
+  async updateRefreshToken(
+    id: string,
+    token: string,
+  ): Promise<UpdateResult | NotFoundException> {
+    try {
+      const updateResult: UpdateResult = await this.userRepository.update(id, {
+        refreshToken: token,
+      });
+
+      if (updateResult.affected === 0) {
+        throw new NotFoundException();
+      }
+
+      return updateResult;
+    } catch (error) {
+      return new NotFoundException();
+    }
+  }
+
   async remove(id: string): Promise<DeleteResult | NotFoundException> {
     try {
       const deleteResult: DeleteResult = await this.userRepository.delete(id);
