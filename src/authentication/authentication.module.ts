@@ -14,7 +14,7 @@ import { RefreshTokenStrategy } from './strategies/refresh-token-strategy';
     TypeOrmModule.forFeature([AuthenticationService]),
     UserModule,
     PassportModule,
-    JwtModule.register({ secret: 'randomsecrete' }),
+    JwtModule.register({}),
   ],
   controllers: [AuthenticationController],
   providers: [
