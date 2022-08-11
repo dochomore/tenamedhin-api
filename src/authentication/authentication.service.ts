@@ -28,8 +28,6 @@ export class AuthenticationService {
   }
 
   async login(user: User) {
-    // const payload = { username: user.username, sub: user.userId };
-    // return { access_token: this.jwtService.sign(payload) };
     try {
       const tokens = await this.getTokens(user.userId, user.username);
       await this.updateRefreshToken(user.userId, tokens.refreshToken);
