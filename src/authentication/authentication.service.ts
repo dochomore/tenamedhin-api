@@ -1,14 +1,10 @@
-import {
-  BadRequestException,
-  Injectable,
-  UnauthorizedException,
-} from '@nestjs/common';
+import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { JwtService } from '@nestjs/jwt';
 import * as bcrypt from 'bcrypt';
-import { CreateUserDto } from 'src/user/dto/create-user.dto';
 import { User } from 'src/user/entities/user.entity';
 import { UserService } from 'src/user/user.service';
+import { AuthenticationDto } from './dto/create-authentication.dto';
 
 @Injectable()
 export class AuthenticationService {
@@ -18,7 +14,8 @@ export class AuthenticationService {
     private readonly configService: ConfigService,
   ) {}
 
-  async validateUser(username: string, password: string) {
+  async validateUser(authDto: AuthenticationDto) {
+    const { username, password } = authDto;
     const user = await this.userService.findOneByUsername(username);
     if (user instanceof User) {
       if (await bcrypt.compare(password, user.password)) {
@@ -40,6 +37,10 @@ export class AuthenticationService {
     } catch (err) {
       return new UnauthorizedException();
     }
+  }
+
+  async logout(userId: string) {
+    return await this.userService.updateRefreshToken(userId, null);
   }
 
   async updateRefreshToken(userId: string, refreshToken: string) {
