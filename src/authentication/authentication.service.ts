@@ -1,4 +1,9 @@
-import { Injectable, UnauthorizedException } from '@nestjs/common';
+import {
+  ForbiddenException,
+  Injectable,
+  NotFoundException,
+  UnauthorizedException,
+} from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { JwtService } from '@nestjs/jwt';
 import * as bcrypt from 'bcrypt';
@@ -18,7 +23,7 @@ export class AuthenticationService {
     const { username, password } = authDto;
     const user = await this.userService.findOneByUsername(username);
     if (user instanceof User) {
-      if (await bcrypt.compare(password, user.password)) {
+      if (await this.compareHashedValues(password, user.password)) {
         // eslint-disable-next-line @typescript-eslint/no-unused-vars
         const { password, ...others } = user;
         return others;
@@ -65,5 +70,30 @@ export class AuthenticationService {
     ]);
 
     return { accessToken, refreshToken };
+  }
+
+  async refreshTokens(userId: string, token: string) {
+    const user = await this.userService.findOneById(userId);
+    if (!user || user instanceof NotFoundException) {
+      throw new ForbiddenException();
+    } else if (!user.refreshToken) {
+      throw new ForbiddenException();
+    }
+
+    const matched = await this.compareHashedValues(token, user.refreshToken);
+    if (!matched) {
+      throw new ForbiddenException();
+    }
+
+    const { accessToken, refreshToken } = await this.getTokens(
+      userId,
+      user.username,
+    );
+    await this.updateRefreshToken(user.userId, refreshToken);
+    return { accessToken, refreshToken };
+  }
+
+  async compareHashedValues(data: string, encrypted: string) {
+    return await bcrypt.compare(data, encrypted);
   }
 }
