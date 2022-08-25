@@ -7,7 +7,6 @@ import { RefreshTokenGuard } from './guard/refresh-token/refresh-token.guard';
 @Controller('auth')
 export class AuthenticationController {
   constructor(private readonly authService: AuthenticationService) {}
-
   @UseGuards(LocalAuthGuard)
   @Post('login')
   login(@Request() req) {
