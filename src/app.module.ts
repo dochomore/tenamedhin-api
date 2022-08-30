@@ -25,6 +25,7 @@ import { UserModule } from './user/user.module';
 import { AuthenticationModule } from './authentication/authentication.module';
 import { User } from './user/entities/user.entity';
 import { WoredaOffice } from './woreda/entities/woreda.entity';
+import { AuthorizationModule } from './authorization/authorization.module';
 
 @Module({
   imports: [
@@ -62,6 +63,7 @@ import { WoredaOffice } from './woreda/entities/woreda.entity';
     RelationshipModule,
     UserModule,
     AuthenticationModule,
+    AuthorizationModule,
   ],
   controllers: [AppController],
   providers: [AppService],
