@@ -7,10 +7,14 @@ import {
   Param,
   Delete,
   ParseUUIDPipe,
+  UseGuards,
 } from '@nestjs/common';
 import { MemberService } from './member.service';
 import { CreateMemberDto } from './dto/create-member.dto';
 import { UpdateMemberDto } from './dto/update-member.dto';
+import { PoliciesGuard } from 'src/authorization/guards/policies.guard';
+import { CheckPolicies } from 'src/authorization/decorators/check-policies.decorators';
+import { ReadMemberPolicyHandler } from 'src/authorization/policy-handlers/member/read-member-policy.handler';
 
 @Controller('members')
 export class MemberController {
@@ -22,6 +26,8 @@ export class MemberController {
   }
 
   @Get()
+  @UseGuards(PoliciesGuard)
+  @CheckPolicies(new ReadMemberPolicyHandler())
   findAll() {
     return this.memberService.findAll();
   }

@@ -2,9 +2,9 @@
  * actions user might take
  */
 export enum Action {
-  Manage = 'Manage',
-  Create = 'Create',
-  Read = 'Read',
-  Update = 'Update',
-  Delete = 'Delete',
+  MANAGE = 'MANAGE',
+  CREATE = 'CREATE',
+  READ = 'READ',
+  UPDATE = 'UPDATE',
+  DELETE = 'DELETE',
 }
