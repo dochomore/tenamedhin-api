@@ -13,7 +13,6 @@ export class PermissionService {
   ) {}
 
   create(createPermissionDto: CreatePermissionDto) {
-    console.table(createPermissionDto);
     const permission = this.permisionRepo.create(createPermissionDto);
     return this.permisionRepo.save(permission);
   }
