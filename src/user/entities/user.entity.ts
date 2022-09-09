@@ -1,5 +1,6 @@
 import { IsDefined } from 'class-validator';
-import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import { Permission } from 'src/permission/entities/permission.entity';
+import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
 
 /**
  * Tena medhin system user
@@ -39,4 +40,7 @@ export class User {
 
   @Column({ nullable: true })
   refreshToken: string;
+
+  @OneToMany(() => Permission, (permission) => permission.user)
+  permissions: Permission[];
 }
