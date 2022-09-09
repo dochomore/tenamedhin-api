@@ -1,12 +1,13 @@
-import { IsDefined } from 'class-validator';
+import { IsNotEmpty, IsUUID } from 'class-validator';
 
 export class CreatePermissionDto {
-  @IsDefined()
+  @IsNotEmpty()
   action: string;
 
-  @IsDefined()
+  @IsNotEmpty()
   subject: string;
 
-  @IsDefined()
+  @IsNotEmpty()
+  @IsUUID()
   userId: string;
 }
