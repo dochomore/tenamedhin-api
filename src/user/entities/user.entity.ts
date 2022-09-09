@@ -42,5 +42,6 @@ export class User {
   refreshToken: string;
 
   @OneToMany(() => Permission, (permission) => permission.user)
+  @Column()
   permissions: Permission[];
 }
