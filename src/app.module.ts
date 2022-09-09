@@ -27,6 +27,7 @@ import { User } from './user/entities/user.entity';
 import { WoredaOffice } from './woreda/entities/woreda.entity';
 import { AuthorizationModule } from './authorization/authorization.module';
 import { PermissionModule } from './permission/permission.module';
+import { Permission } from './permission/entities/permission.entity';
 
 @Module({
   imports: [
@@ -53,6 +54,7 @@ import { PermissionModule } from './permission/permission.module';
         Relationship,
         User,
         WoredaOffice,
+        Permission,
       ],
       synchronize: true,
     }),
