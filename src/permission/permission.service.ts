@@ -18,8 +18,8 @@ export class PermissionService {
     return this.permisionRepo.save(permission);
   }
 
-  findAll() {
-    return `This action returns all permission`;
+  async findAll() {
+    return await this.permisionRepo.find();
   }
 
   findOne(id: number) {
