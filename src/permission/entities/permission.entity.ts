@@ -1,6 +1,13 @@
 import { Action } from 'src/authorization/enums/action';
 import { User } from 'src/user/entities/user.entity';
-import { Column, Entity, ManyToMany, PrimaryGeneratedColumn } from 'typeorm';
+import {
+  Column,
+  Entity,
+  JoinTable,
+  ManyToMany,
+  PrimaryGeneratedColumn,
+  Relation,
+} from 'typeorm';
 /**
  * Represents user ability to do things in the system.
  */
@@ -15,7 +22,7 @@ export class Permission {
   @Column({ nullable: false })
   subject: string;
 
-  @ManyToMany(() => User, (user) => user.permissions)
-  @Column()
-  user: User;
+  @ManyToMany(() => User, (user) => user.permissions, { onDelete: 'CASCADE' })
+  @JoinTable()
+  userId: string;
 }
