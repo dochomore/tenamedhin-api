@@ -16,5 +16,6 @@ export class Permission {
   subject: string;
 
   @ManyToMany(() => User, (user) => user.permissions)
+  @Column()
   user: User;
 }
