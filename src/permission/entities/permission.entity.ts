@@ -1,3 +1,4 @@
+import { Action } from 'src/authorization/enums/action';
 import { User } from 'src/user/entities/user.entity';
 import { Column, Entity, ManyToMany, PrimaryGeneratedColumn } from 'typeorm';
 /**
@@ -8,7 +9,7 @@ export class Permission {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
-  @Column({ nullable: false })
+  @Column({ nullable: false, enum: Action })
   action: string;
 
   @Column({ nullable: false })
