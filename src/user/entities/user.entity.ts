@@ -3,6 +3,7 @@ import { Permission } from 'src/permission/entities/permission.entity';
 import {
   Column,
   Entity,
+  JoinTable,
   ManyToMany,
   PrimaryGeneratedColumn,
   Relation,
@@ -50,5 +51,6 @@ export class User {
   @ManyToMany(() => Permission, (permission) => permission.userId, {
     onDelete: 'CASCADE',
   })
+  @JoinTable({ name: 'user_with_permission' })
   permissions: Relation<Permission[]>;
 }
