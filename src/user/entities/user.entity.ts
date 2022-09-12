@@ -3,9 +3,7 @@ import { Permission } from 'src/permission/entities/permission.entity';
 import {
   Column,
   Entity,
-  JoinTable,
   ManyToMany,
-  OneToMany,
   PrimaryGeneratedColumn,
   Relation,
 } from 'typeorm';
