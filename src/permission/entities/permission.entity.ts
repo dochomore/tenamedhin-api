@@ -6,7 +6,6 @@ import {
   JoinTable,
   ManyToMany,
   PrimaryGeneratedColumn,
-  Relation,
 } from 'typeorm';
 /**
  * Represents user ability to do things in the system.

@@ -4,6 +4,7 @@ import {
   Column,
   Entity,
   JoinTable,
+  ManyToMany,
   OneToMany,
   PrimaryGeneratedColumn,
   Relation,
@@ -48,9 +49,8 @@ export class User {
   @Column({ nullable: true })
   refreshToken: string;
 
-  @OneToMany(() => Permission, (permission) => permission.userId, {
+  @ManyToMany(() => Permission, (permission) => permission.userId, {
     onDelete: 'CASCADE',
   })
-  @JoinTable()
   permissions: Relation<Permission[]>;
 }
