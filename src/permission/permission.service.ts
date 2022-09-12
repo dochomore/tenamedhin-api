@@ -17,6 +17,10 @@ export class PermissionService {
     return this.permisionRepo.save(permission);
   }
 
+  async findPermissionById(userId: string) {
+    return this.permisionRepo.findBy({ userId: userId });
+  }
+
   async findAll() {
     return await this.permisionRepo.find();
   }
