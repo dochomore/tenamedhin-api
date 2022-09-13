@@ -1,22 +1,25 @@
 import {
-  Controller,
-  Get,
-  Post,
   Body,
-  Patch,
-  Param,
+  Controller,
   Delete,
+  Get,
+  Param,
   ParseUUIDPipe,
+  Patch,
+  Post,
   UseGuards,
 } from '@nestjs/common';
-import { MemberService } from './member.service';
+import { AccessTokenGuard } from 'src/authentication/guard/access-token/access-token.guard';
+import { CheckPolicies } from 'src/authorization/decorators/check-policies.decorators';
+import { PoliciesGuard } from 'src/authorization/guards/policies.guard';
+import { ReadMemberPolicyHandler } from 'src/authorization/policy-handlers/member/read-member-policy.handler';
 import { CreateMemberDto } from './dto/create-member.dto';
 import { UpdateMemberDto } from './dto/update-member.dto';
-import { PoliciesGuard } from 'src/authorization/guards/policies.guard';
-import { CheckPolicies } from 'src/authorization/decorators/check-policies.decorators';
-import { ReadMemberPolicyHandler } from 'src/authorization/policy-handlers/member/read-member-policy.handler';
+import { MemberService } from './member.service';
 
 @Controller('members')
+@UseGuards(PoliciesGuard)
+@UseGuards(AccessTokenGuard)
 export class MemberController {
   constructor(private readonly memberService: MemberService) {}
 
@@ -25,9 +28,8 @@ export class MemberController {
     return this.memberService.create(createMemberDto);
   }
 
-  @Get()
-  @UseGuards(PoliciesGuard)
   @CheckPolicies(new ReadMemberPolicyHandler())
+  @Get()
   findAll() {
     return this.memberService.findAll();
   }
