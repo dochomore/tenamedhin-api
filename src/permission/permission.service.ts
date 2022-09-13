@@ -18,7 +18,7 @@ export class PermissionService {
   }
 
   async findPermissionById(userId: string) {
-    return this.permisionRepo.findBy({ userId: userId });
+    return this.permisionRepo.findBy({ userId });
   }
 
   async findAll() {
