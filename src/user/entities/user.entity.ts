@@ -1,10 +1,12 @@
 import { IsDefined } from 'class-validator';
 import { Permission } from 'src/permission/entities/permission.entity';
+import { Role } from 'src/role/entities/role.entity';
 import {
   Column,
   Entity,
   JoinTable,
   ManyToMany,
+  OneToMany,
   PrimaryGeneratedColumn,
   Relation,
 } from 'typeorm';
@@ -53,4 +55,8 @@ export class User {
   })
   @JoinTable({ name: 'user_with_permission' })
   permissions: Relation<Permission[]>;
+
+  @OneToMany(() => Role, (role) => role.userId)
+  @JoinTable({ name: 'user_role' })
+  roles: Relation<Role[]>;
 }

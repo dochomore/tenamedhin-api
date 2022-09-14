@@ -1,4 +1,5 @@
-import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import { User } from 'src/user/entities/user.entity';
+import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
 /**
  * User Role
  */
@@ -6,14 +7,17 @@ import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
 @Entity()
 export class Role {
   @PrimaryGeneratedColumn('uuid')
-  role_id: string;
+  roleId: string;
 
   @Column()
-  role_name: string;
+  roleName: string;
 
   @Column({ type: 'timestamptz' })
   createdAt: Date;
 
   @Column({ type: 'timestamptz' })
   updatedAt: Date;
+
+  @ManyToOne(() => User, (user) => user.roles, { onDelete: 'NO ACTION' })
+  userId: string;
 }
