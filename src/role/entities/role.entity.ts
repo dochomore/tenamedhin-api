@@ -19,5 +19,5 @@ export class Role {
   updatedAt: Date;
 
   @ManyToOne(() => User, (user) => user.roles, { onDelete: 'NO ACTION' })
-  userId: string;
+  userId: User;
 }
