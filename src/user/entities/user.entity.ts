@@ -4,6 +4,7 @@ import {
   Column,
   Entity,
   JoinTable,
+  ManyToOne,
   OneToMany,
   PrimaryGeneratedColumn,
   Relation,
@@ -48,7 +49,7 @@ export class User {
   @Column({ nullable: true })
   refreshToken: string;
 
-  @OneToMany(() => Role, (role) => role.userId)
+  @ManyToOne(() => Role, (role) => role.userId)
   @JoinTable({ name: 'user_role' })
   roles: Relation<Role[]>;
 }

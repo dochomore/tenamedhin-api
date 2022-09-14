@@ -6,6 +6,7 @@ import {
   JoinTable,
   ManyToMany,
   ManyToOne,
+  OneToMany,
   PrimaryGeneratedColumn,
   Relation,
 } from 'typeorm';
@@ -27,7 +28,7 @@ export class Role {
   @Column({ type: 'timestamptz' })
   updatedAt: Date;
 
-  @ManyToOne(() => User, (user) => user.roles, { onDelete: 'NO ACTION' })
+  @OneToMany(() => User, (user) => user.roles, { onDelete: 'NO ACTION' })
   userId: User;
 
   @ManyToMany(() => Permission, (permission) => permission.roleId, {
