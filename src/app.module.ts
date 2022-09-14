@@ -29,6 +29,7 @@ import { UserModule } from './user/user.module';
 import { WoredaOffice } from './woreda/entities/woreda.entity';
 import { WoredaModule } from './woreda/woreda.module';
 import { RoleModule } from './role/role.module';
+import { Role } from './role/entities/role.entity';
 
 @Module({
   imports: [
@@ -56,6 +57,7 @@ import { RoleModule } from './role/role.module';
         User,
         WoredaOffice,
         Permission,
+        Role,
       ],
       synchronize: true,
     }),
