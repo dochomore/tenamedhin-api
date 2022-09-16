@@ -1,7 +1,7 @@
-import { CheckPolicies } from './check-policies.decorators';
+import { RequirePolicies } from './check-policies.decorators';
 
 describe('CheckPoliciesDecorators', () => {
   it('should be defined', () => {
-    expect(CheckPolicies()).toBeDefined();
+    expect(RequirePolicies()).toBeDefined();
   });
 });
