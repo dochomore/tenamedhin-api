@@ -22,24 +22,18 @@ export type AppAbility = Ability<[Action, Subjects]>;
 export class AbilityFactory {
   constructor(private readonly permissionServie: PermissionService) {}
 
-  create(user: User) {
+  create(user: any) {
     const { can, cannot, build } = new AbilityBuilder<
       Ability<[Action, Subjects]>
     >(Ability as AbilityClass<AppAbility>);
 
-    // remove this line i added this line to shut lintter down
-    // if (user.username.length === 0) return;
-    this.permissionServie.findPermission(user.userId).then((response) => {
-      console.log('🔴🔴', response);
-    });
+    const { sub } = user;
 
-    this.permissionServie.findAll().then((permissions) => {
+    this.permissionServie.findPermission(sub).then((permissions) => {
       permissions.forEach((permission) => {
-        // console.log(`🎶 ${permission.action}, `);
-        // console.table(permission);
-        if (permission.action === Action.CREATE) {
-          can(Action.CREATE, Member);
-        }
+        // create ability
+        // define ability
+        console.log(permission);
       });
     });
 
