@@ -10,9 +10,9 @@ import {
   UseGuards,
 } from '@nestjs/common';
 import { AccessTokenGuard } from 'src/authentication/guard/access-token/access-token.guard';
-import { CheckPolicies } from 'src/authorization/decorators/check-policies.decorators';
+import { RequirePolicies } from 'src/authorization/decorators/check-policies.decorators';
 import { PoliciesGuard } from 'src/authorization/guards/policies.guard';
-import { ReadMemberPolicyHandler } from 'src/authorization/policy-handlers/member/read-member-policy.handler';
+import { ReadMemberPolicyHandler } from 'src/authorization/policy-handlers/member/read/read-member-policy.handler';
 import { CreateMemberDto } from './dto/create-member.dto';
 import { UpdateMemberDto } from './dto/update-member.dto';
 import { MemberService } from './member.service';
@@ -28,7 +28,7 @@ export class MemberController {
     return this.memberService.create(createMemberDto);
   }
 
-  @CheckPolicies(new ReadMemberPolicyHandler())
+  @RequirePolicies(new ReadMemberPolicyHandler())
   @Get()
   findAll() {
     return this.memberService.findAll();
