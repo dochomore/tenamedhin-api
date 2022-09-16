@@ -17,8 +17,13 @@ export class PermissionService {
     return this.permisionRepo.save(permission);
   }
 
-  async findPermissionById(roleId: string) {
-    return this.permisionRepo.findBy({ roleId: roleId });
+  async findPermission(userId: string) {
+    return this.permisionRepo
+      .createQueryBuilder('permission')
+      .innerJoin('permission.role', 'role')
+      .innerJoin('role.user', 'user')
+      .select(['permission.action', 'role'])
+      .getMany();
   }
 
   async findAll() {

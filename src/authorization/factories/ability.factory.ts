@@ -29,6 +29,9 @@ export class AbilityFactory {
 
     // remove this line i added this line to shut lintter down
     // if (user.username.length === 0) return;
+    this.permissionServie.findPermission(user.userId).then((response) => {
+      console.log('🔴🔴', response);
+    });
 
     this.permissionServie.findAll().then((permissions) => {
       permissions.forEach((permission) => {

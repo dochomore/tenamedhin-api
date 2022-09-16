@@ -5,8 +5,8 @@ import {
   Entity,
   JoinTable,
   ManyToOne,
+  OneToMany,
   PrimaryGeneratedColumn,
-  Relation,
 } from 'typeorm';
 
 /**
@@ -48,7 +48,6 @@ export class User {
   @Column({ nullable: true })
   refreshToken: string;
 
-  @ManyToOne(() => Role, (role) => role.userId)
-  @JoinTable({ name: 'user_role' })
-  roles: Relation<Role[]>;
+  @OneToMany(() => Role, (role) => role.user)
+  role: Role;
 }

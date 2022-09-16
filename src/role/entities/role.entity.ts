@@ -5,7 +5,7 @@ import {
   Entity,
   JoinTable,
   ManyToMany,
-  OneToMany,
+  ManyToOne,
   PrimaryGeneratedColumn,
   Relation,
 } from 'typeorm';
@@ -27,10 +27,11 @@ export class Role {
   @Column({ type: 'timestamptz' })
   updatedAt: Date;
 
-  @OneToMany(() => User, (user) => user.roles, { onDelete: 'NO ACTION' })
-  userId: User;
+  @ManyToOne(() => User, (user) => user.role, { onDelete: 'NO ACTION' })
+  @JoinTable()
+  user: User;
 
-  @ManyToMany(() => Permission, (permission) => permission.roleId, {
+  @ManyToMany(() => Permission, (permission) => permission.role, {
     onDelete: 'NO ACTION',
   })
   @JoinTable({ name: 'role_with_permission' })

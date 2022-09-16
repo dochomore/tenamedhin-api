@@ -1,6 +1,12 @@
 import { Action } from 'src/authorization/enums/action';
 import { Role } from 'src/role/entities/role.entity';
-import { Column, Entity, ManyToMany, PrimaryGeneratedColumn } from 'typeorm';
+import {
+  Column,
+  Entity,
+  ManyToMany,
+  PrimaryGeneratedColumn,
+  Relation,
+} from 'typeorm';
 /**
  * Represents user ability to do things in the system.
  */
@@ -16,5 +22,5 @@ export class Permission {
   subject: string;
 
   @ManyToMany(() => Role, (role) => role.permissions, { onDelete: 'NO ACTION' })
-  roleId: string;
+  role: Relation<Role[]>;
 }
