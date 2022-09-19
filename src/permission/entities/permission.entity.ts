@@ -1,5 +1,6 @@
 import { Action } from 'src/authorization/enums/action';
 import { Role } from 'src/role/entities/role.entity';
+import { User } from 'src/user/entities/user.entity';
 import {
   Column,
   Entity,
@@ -21,6 +22,6 @@ export class Permission {
   @Column({ nullable: false })
   subject: string;
 
-  @ManyToMany(() => Role, (role) => role.permissions, { onDelete: 'NO ACTION' })
-  role: Relation<Role[]>;
+  @ManyToMany(() => User, (user) => user.permissions, { onDelete: 'CASCADE' })
+  user: Relation<User[]>;
 }
