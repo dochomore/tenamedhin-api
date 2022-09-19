@@ -20,8 +20,8 @@ export class PermissionService {
   async findPermission(userId: string) {
     return this.permisionRepo
       .createQueryBuilder('permission')
-      .leftJoinAndSelect('permission.role', 'role')
-      .where('role.user = :userId', { userId })
+      .innerJoinAndSelect('permission.user', 'user')
+      .where('user.userId = :userId', { userId })
       .select(['permission.action', 'permission.subject', 'permission.id'])
       .getMany();
   }
