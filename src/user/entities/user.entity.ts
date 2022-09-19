@@ -5,11 +5,9 @@ import {
   Column,
   Entity,
   JoinTable,
-  ManyToMany,
-  ManyToOne,
-  OneToMany,
+  ManyToMany, OneToMany,
   PrimaryGeneratedColumn,
-  Relation,
+  Relation
 } from 'typeorm';
 
 /**

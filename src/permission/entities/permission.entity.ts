@@ -1,12 +1,11 @@
 import { Action } from 'src/authorization/enums/action';
-import { Role } from 'src/role/entities/role.entity';
 import { User } from 'src/user/entities/user.entity';
 import {
   Column,
   Entity,
   ManyToMany,
   PrimaryGeneratedColumn,
-  Relation,
+  Relation
 } from 'typeorm';
 /**
  * Represents user ability to do things in the system.
