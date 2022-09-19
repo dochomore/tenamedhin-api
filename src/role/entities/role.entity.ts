@@ -31,9 +31,5 @@ export class Role {
   @JoinTable()
   user: User;
 
-  @ManyToMany(() => Permission, (permission) => permission.role, {
-    onDelete: 'NO ACTION',
-  })
-  @JoinTable({ name: 'role_with_permission' })
-  permissions: Relation<Permission[]>;
+  
 }
