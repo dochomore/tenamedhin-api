@@ -21,6 +21,9 @@ export class Permission {
   @Column({ nullable: false })
   subject: string;
 
+  @Column({type: 'json', default: {}})
+  conditions: string;
+
   @ManyToMany(() => User, (user) => user.permissions, { onDelete: 'CASCADE' })
   user: Relation<User[]>;
 }
