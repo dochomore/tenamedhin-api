@@ -2,12 +2,9 @@ import { Permission } from 'src/permission/entities/permission.entity';
 import { User } from 'src/user/entities/user.entity';
 import {
   Column,
-  Entity,
-  JoinTable,
-  ManyToMany,
-  ManyToOne,
+  Entity, JoinTable, ManyToMany, ManyToOne,
   PrimaryGeneratedColumn,
-  Relation,
+  Relation
 } from 'typeorm';
 /**
  * User Role
@@ -31,5 +28,10 @@ export class Role {
   @JoinTable()
   user: User;
 
-  
+  @ManyToMany(() => Permission, (permission) => permission.role, {
+    onDelete: 'NO ACTION',
+  })
+  @JoinTable({ name: 'role_with_permission' })
+  permissions: Relation<Permission[]>;
+
 }
