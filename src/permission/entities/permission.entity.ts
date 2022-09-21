@@ -1,9 +1,11 @@
 import { Action } from 'src/authorization/enums/action';
+import { Resource } from 'src/resource/entities/resource.entity';
 import { Role } from 'src/role/entities/role.entity';
 import {
   Column,
   Entity,
   ManyToMany,
+  ManyToOne,
   PrimaryGeneratedColumn,
   Relation
 } from 'typeorm';
@@ -26,4 +28,7 @@ export class Permission {
 
   @ManyToMany(() => Role, (role) => role.permissions, { onDelete: 'CASCADE' })
   role: Relation<Role[]>;
+
+  @ManyToOne(() => Resource, (resource) => resource.permission, { onDelete: 'NO ACTION' })
+  resource: Relation<Permission[]>
 }
