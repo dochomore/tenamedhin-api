@@ -30,6 +30,7 @@ import { WoredaOffice } from './woreda/entities/woreda.entity';
 import { WoredaModule } from './woreda/woreda.module';
 import { RoleModule } from './role/role.module';
 import { Role } from './role/entities/role.entity';
+import { ResourceModule } from './resource/resource.module';
 
 @Module({
   imports: [
@@ -72,6 +73,7 @@ import { Role } from './role/entities/role.entity';
     AuthorizationModule,
     PermissionModule,
     RoleModule,
+    ResourceModule,
   ],
   controllers: [AppController],
   providers: [AppService],
