@@ -7,7 +7,7 @@ import {
   ManyToMany,
   ManyToOne,
   PrimaryGeneratedColumn,
-  Relation
+  Relation,
 } from 'typeorm';
 /**
  * Represents user ability to do things in the system.
@@ -30,5 +30,5 @@ export class Permission {
   role: Relation<Role[]>;
 
   @ManyToOne(() => Resource, (resource) => resource.permission, { onDelete: 'NO ACTION' })
-  resource: Relation<Permission[]>
+  resource: Relation<Permission[]>;
 }
