@@ -31,6 +31,7 @@ import { WoredaModule } from './woreda/woreda.module';
 import { RoleModule } from './role/role.module';
 import { Role } from './role/entities/role.entity';
 import { ResourceModule } from './resource/resource.module';
+import { Resource } from './resource/entities/resource.entity';
 
 @Module({
   imports: [
@@ -59,6 +60,7 @@ import { ResourceModule } from './resource/resource.module';
         WoredaOffice,
         Permission,
         Role,
+        Resource
       ],
       synchronize: true,
     }),
@@ -78,4 +80,4 @@ import { ResourceModule } from './resource/resource.module';
   controllers: [AppController],
   providers: [AppService],
 })
-export class AppModule {}
+export class AppModule { }
