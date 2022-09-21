@@ -2,7 +2,7 @@ import { IsDefined } from 'class-validator';
 import { Role } from 'src/role/entities/role.entity';
 import {
   Column,
-  Entity, OneToMany,
+  Entity, JoinTable, ManyToOne, OneToMany,
   PrimaryGeneratedColumn
 } from 'typeorm';
 
@@ -45,7 +45,8 @@ export class User {
   @Column({ nullable: true })
   refreshToken: string;
 
-  @OneToMany(() => Role, (role) => role.user)
+  @ManyToOne(() => Role, (role) => role.user)
+  @JoinTable()
   role: Role;
   
 }

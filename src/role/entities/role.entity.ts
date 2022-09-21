@@ -3,6 +3,7 @@ import { User } from 'src/user/entities/user.entity';
 import {
   Column,
   Entity, JoinTable, ManyToMany, ManyToOne,
+  OneToMany,
   PrimaryGeneratedColumn,
   Relation
 } from 'typeorm';
@@ -24,8 +25,7 @@ export class Role {
   @Column({ type: 'timestamptz' })
   updatedAt: Date;
 
-  @ManyToOne(() => User, (user) => user.role, { onDelete: 'NO ACTION' })
-  @JoinTable()
+  @OneToMany(() => User, (user) => user.role, { onDelete: 'NO ACTION' })
   user: User;
 
   @ManyToMany(() => Permission, (permission) => permission.role, {
