@@ -1,6 +1,5 @@
 import { CanActivate, ExecutionContext, Injectable } from '@nestjs/common';
 import { Reflector } from '@nestjs/core';
-import { Observable } from 'rxjs';
 import { CHECK_POLICIES_KEY } from '../decorators/check-policies.decorators';
 import { AbilityFactory } from '../factories/ability.factory';
 import { IPolicyHandler } from '../interfaces/policy-handler.interface';
@@ -11,9 +10,7 @@ export class PoliciesGuard implements CanActivate {
     private readonly reflector: Reflector,
     private readonly abilityFactory: AbilityFactory,
   ) {}
-  canActivate(
-    context: ExecutionContext,
-  ): boolean | Promise<boolean> | Observable<boolean> {
+  async canActivate(context: ExecutionContext): Promise<boolean> {
     const policyHandlers =
       this.reflector.get<IPolicyHandler[]>(
         CHECK_POLICIES_KEY,
@@ -21,7 +18,7 @@ export class PoliciesGuard implements CanActivate {
       ) || [];
 
     const { user } = context.switchToHttp().getRequest();
-    const ability = this.abilityFactory.create(user);
+    const ability = await this.abilityFactory.create(user);
     return policyHandlers.every((handler) => {
       return handler.handle(ability);
     });

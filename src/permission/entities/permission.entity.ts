@@ -18,10 +18,7 @@ export class Permission {
   id: string;
 
   @Column({ nullable: false, enum: Action })
-  action: string;
-
-  @Column({ nullable: false })
-  subject: string;
+  action: Action;
 
   @Column({ type: 'json', default: {} })
   conditions: string;
@@ -29,6 +26,8 @@ export class Permission {
   @ManyToMany(() => Role, (role) => role.permissions, { onDelete: 'CASCADE' })
   role: Relation<Role[]>;
 
-  @ManyToOne(() => Resource, (resource) => resource.permission, { onDelete: 'NO ACTION' })
-  resource: Relation<Permission[]>;
+  @ManyToOne(() => Resource, (resource) => resource.permission, {
+    onDelete: 'NO ACTION',
+  })
+  resource: Relation<Resource>;
 }

@@ -1,8 +1,9 @@
 import { IsNotEmpty, IsUUID } from 'class-validator';
+import { Action } from 'src/authorization/enums/action';
 
 export class CreatePermissionDto {
   @IsNotEmpty()
-  action: string;
+  action: Action;
 
   @IsNotEmpty()
   subject: string;
