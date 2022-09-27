@@ -21,10 +21,10 @@ export class Role {
   @Column()
   roleName: string;
 
-  @Column({ type: 'timestamptz' })
+  @Column({ type: 'timestamptz', default: new Date() })
   createdAt: Date;
 
-  @Column({ type: 'timestamptz' })
+  @Column({ type: 'timestamptz', default: new Date() })
   updatedAt: Date;
 
   @OneToMany(() => User, (user) => user.role, { onDelete: 'NO ACTION' })
