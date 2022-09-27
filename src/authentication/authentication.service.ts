@@ -34,7 +34,7 @@ export class AuthenticationService {
 
   async login(user: User) {
     try {
-      const tokens = await this.getTokens(user.userId, user.username);
+      const tokens = await this.getTokens(user);
       await this.updateRefreshToken(user.userId, tokens.refreshToken);
       return tokens;
     } catch (err) {
@@ -51,17 +51,18 @@ export class AuthenticationService {
     return await this.userService.updateRefreshToken(userId, hashedToken);
   }
 
-  async getTokens(userId: string, username: string) {
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  async getTokens({ password, ...user }: User) {
     const [accessToken, refreshToken] = await Promise.all([
       this.jwtService.signAsync(
-        { sub: userId, username },
+        { ...user },
         {
           secret: this.configService.get<string>('JWT_ACCESS_SECRET'),
           expiresIn: '15m',
         },
       ),
       this.jwtService.signAsync(
-        { sub: userId, username },
+        { ...user },
         {
           secret: this.configService.get<string>('JWT_REFRESH_SECRET'),
           expiresIn: '7d',
@@ -72,8 +73,8 @@ export class AuthenticationService {
     return { accessToken, refreshToken };
   }
 
-  async refreshTokens(userId: string, token: string) {
-    const user = await this.userService.findOneById(userId);
+  async refreshTokens(username: string, token: string) {
+    const user = await this.userService.findOneByUsername(username);
     if (!user || user instanceof NotFoundException) {
       throw new ForbiddenException();
     } else if (!user.refreshToken) {
@@ -85,10 +86,7 @@ export class AuthenticationService {
       throw new ForbiddenException();
     }
 
-    const { accessToken, refreshToken } = await this.getTokens(
-      userId,
-      user.username,
-    );
+    const { accessToken, refreshToken } = await this.getTokens(user);
     await this.updateRefreshToken(user.userId, refreshToken);
     return { accessToken, refreshToken };
   }

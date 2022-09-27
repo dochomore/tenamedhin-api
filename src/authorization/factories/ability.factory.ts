@@ -22,10 +22,13 @@ export type AppAbility = Ability<[Action, Subjects]>;
 6. If not, it's sends error back that user has no permission to do what he attempted to do.
 7. If user has permissions, then proceed with the actual action.
  */
+// eslint-disable-next-line @typescript-eslint/no-empty-interface
+export interface PermissionCondition {}
 
 interface CaslPermission {
   action: Action;
   subject: string;
+  condition?: PermissionCondition;
 }
 
 @Injectable()
@@ -33,18 +36,50 @@ export class AbilityFactory {
   constructor(private readonly permissionServie: PermissionService) {}
 
   async create(user: any) {
-    const { sub } = user;
+    const { userId } = user;
 
     const dbPermission: Permission[] =
-      await this.permissionServie.findPermission(sub);
-    const caslPermission: CaslPermission[] = dbPermission.map((permission) => ({
-      action: permission.action,
-      subject: permission.resource.resourceName,
-    }));
+      await this.permissionServie.findPermission(userId);
+    const caslPermission: CaslPermission[] = dbPermission.map((permission) => {
+      return {
+        action: permission.action,
+        subject: permission.resource.resourceName,
+        condition: this.parseCondition(permission.conditions, user),
+      };
+    });
 
     const ability = new Ability<[Action, Subjects]>(caslPermission);
-    console.log('🍇', ability.can(Action.READ, 'Member'));
-    console.log('🍇', ability);
     return ability;
+  }
+
+  private parseCondition(
+    condition: PermissionCondition,
+    variables: Record<string, any>,
+  ): PermissionCondition {
+    if (!condition) return null;
+    const parsedCondition = {};
+    for (const [key, rawValue] of Object.entries(condition)) {
+      if (rawValue !== null && typeof rawValue === 'object') {
+        const value = this.parseCondition(rawValue, variables);
+        parsedCondition[key] = value;
+        continue;
+      }
+      if (typeof rawValue !== 'string') {
+        parsedCondition[key] = rawValue;
+        continue;
+      }
+      // find placeholder "${}""
+      const matches = /^\\${([a-zA-Z0-9]+)}$/.exec(rawValue);
+      if (!matches) {
+        parsedCondition[key] = rawValue;
+        continue;
+      }
+      const value = variables[matches[1]];
+      if (typeof value === 'undefined') {
+        throw new ReferenceError(`Variable is not defined`);
+      }
+      parsedCondition[key] = value;
+    }
+    return parsedCondition;
   }
 }

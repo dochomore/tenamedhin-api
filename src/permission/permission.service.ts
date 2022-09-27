@@ -23,8 +23,7 @@ export class PermissionService {
       .innerJoinAndSelect('permission.role', 'role')
       .innerJoinAndSelect('permission.resource', 'resource')
       .innerJoinAndSelect('role.user', 'user')
-      .where('user.userId = :userId', { userId })
-      .select(['permission.action', 'resource.resourceName', 'permission.id'])
+      .where('user.userId =:userId', { userId })
       .getMany();
   }
 
