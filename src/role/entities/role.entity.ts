@@ -12,13 +12,27 @@ import {
 /**
  * User Role
  */
+/**
+ * KB-USER -> kebele User
+ * HO-USER -> Hospital User
+ * HC-USER -> Healthcare user
+ */
+export enum RoleType {
+  KEBELE_USER = 'KB-USER',
+  HOSPITAL_USER = 'HO-USER',
+  HEALTHCARE_USER = 'HC-USER',
+  ADMIN = 'admin',
+}
 
 @Entity()
 export class Role {
   @PrimaryGeneratedColumn('uuid')
   roleId: string;
 
-  @Column()
+  @Column({
+    enum: RoleType,
+    type: 'enum',
+  })
   roleName: string;
 
   @Column({ type: 'timestamptz', default: new Date() })
