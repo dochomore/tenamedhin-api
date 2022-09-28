@@ -49,6 +49,7 @@ export class AbilityFactory {
     });
 
     const ability = new Ability<[Action, Subjects]>(caslPermission);
+    console.log(caslPermission);
     return ability;
   }
 
