@@ -59,7 +59,7 @@ export class FamilymemberService {
       }
       return result;
     } catch (error) {
-      return new BadRequestException();
+      return new NotFoundException();
     }
   }
 
