@@ -20,7 +20,7 @@ import { ReadFamilyMemberPolicyHandler } from 'src/authorization/policy-handlers
 import { UpdateFamilyMemberPolicyHandler } from 'src/authorization/policy-handlers/family-member/update/update-family-member-policy.handler';
 import { DeleteFamilyMemberPolicyHandler } from 'src/authorization/policy-handlers/family-member/delete/delete-family-member-policy.handler';
 
-@Controller('familymember')
+@Controller('familymembers')
 @UseGuards(PoliciesGuard)
 @UseGuards(AccessTokenGuard)
 export class FamilymemberController {
