@@ -1,12 +1,15 @@
 import {
   Body,
   Controller,
+  DefaultValuePipe,
   Delete,
   Get,
   Param,
+  ParseIntPipe,
   ParseUUIDPipe,
   Patch,
   Post,
+  Query,
   UseGuards,
 } from '@nestjs/common';
 import { AccessTokenGuard } from 'src/authentication/guard/access-token/access-token.guard';
@@ -34,8 +37,12 @@ export class MemberController {
 
   @Get()
   @RequirePolicies(new ReadMemberPolicyHandler())
-  findAll() {
-    return this.memberService.findAll();
+  findAll(
+    @Query('page', new DefaultValuePipe(1), ParseIntPipe) page = 1,
+    @Query('limit', new DefaultValuePipe(25), ParseIntPipe) limit = 25,
+  ) {
+    limit = limit > 100 ? 100 : limit;
+    return this.memberService.findAll({ limit: limit, page: page });
   }
 
   @Get(':id')

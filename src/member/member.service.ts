@@ -4,6 +4,7 @@ import {
   NotFoundException,
 } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
+import { IPaginationOptions, paginate } from 'nestjs-typeorm-paginate';
 import { DeleteResult, Repository, UpdateResult } from 'typeorm';
 import { CreateMemberDto } from './dto/create-member.dto';
 import { UpdateMemberDto } from './dto/update-member.dto';
@@ -54,13 +55,13 @@ export class MemberService {
     }
   }
 
-  async findAll() {
+  async findAll(options: IPaginationOptions) {
     try {
       const result = await this.memberRepository.find();
       if (!result) {
         throw new BadRequestException();
       }
-      return result;
+      return paginate(this.memberRepository, options);
     } catch (error) {
       return new BadRequestException();
     }
