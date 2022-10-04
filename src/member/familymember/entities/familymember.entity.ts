@@ -1,4 +1,5 @@
-import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import { Member } from 'src/member/entities/member.entity';
+import { Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
 
 @Entity()
 export class Familymember {
@@ -25,4 +26,8 @@ export class Familymember {
 
   @Column({ type: 'date' })
   dateOfBirth: Date;
+
+  @ManyToOne(() => Member, (member) => member.families)
+  @JoinColumn({ name: 'member' })
+  member: Member;
 }

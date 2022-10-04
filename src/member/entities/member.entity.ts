@@ -1,4 +1,5 @@
-import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, Entity, OneToMany, PrimaryGeneratedColumn, Relation } from 'typeorm';
+import { Familymember } from '../familymember/entities/familymember.entity';
 
 /**
  * Tena medhin Member
@@ -35,4 +36,7 @@ export class Member {
 
   @Column({ default: false })
   idCardIssued: boolean;
+
+  @OneToMany(() => Familymember, (f) => f.member)
+  families: Relation<Familymember[]>;
 }
