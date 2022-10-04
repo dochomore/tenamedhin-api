@@ -1,4 +1,5 @@
 import { Member } from 'src/member/entities/member.entity';
+import { Relationship } from 'src/relationship/entities/relationship.entity';
 import {
   Column,
   Entity,
@@ -32,6 +33,10 @@ export class Familymember {
 
   @Column({ type: 'date' })
   dateOfBirth: Date;
+
+  @ManyToOne(() => Relationship, (rship) => rship.member)
+  @JoinColumn({ name: 'relation' })
+  relation: Relationship;
 
   @ManyToOne(() => Member, (member) => member.families)
   @JoinColumn({ name: 'member' })
