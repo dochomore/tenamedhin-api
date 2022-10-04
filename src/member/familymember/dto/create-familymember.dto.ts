@@ -1,4 +1,4 @@
-import { IsNotEmpty, IsString } from 'class-validator';
+import { IsDefined, IsNotEmpty, IsString, IsUUID } from 'class-validator';
 
 export class CreateFamilymemberDto {
   dateOfRegistration?: Date;
@@ -24,4 +24,8 @@ export class CreateFamilymemberDto {
 
   @IsNotEmpty()
   dateOfBirth: Date;
+
+  @IsNotEmpty()
+  @IsUUID()
+  memberId: string;
 }

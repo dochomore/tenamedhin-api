@@ -18,27 +18,10 @@ export class FamilymemberService {
 
   async create(createFamilymemberDto: CreateFamilymemberDto) {
     try {
-      const {
-        dateOfRegistration,
-        firstName,
-        fatherName,
-        gfName,
-        gender,
-        age,
-        dateOfBirth,
-      } = createFamilymemberDto;
-      const member = await this.memberRepository.create({
-        dateOfRegistration: dateOfRegistration,
-        firstName: firstName,
-        fatherName: fatherName,
-        gfName: gfName,
-        gender: gender,
-        age: age,
-        dateOfBirth: dateOfBirth,
-      });
+      const member = await this.memberRepository.create(createFamilymemberDto);
 
       return await this.memberRepository.save(member);
-    } catch (error) {
+    } catch {
       return new BadRequestException();
     }
   }
