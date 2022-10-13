@@ -28,7 +28,7 @@ export interface PermissionCondition {}
 interface CaslPermission {
   action: Action;
   subject: string;
-  condition?: PermissionCondition;
+  conditions?: PermissionCondition;
 }
 
 @Injectable()
@@ -44,12 +44,11 @@ export class AbilityFactory {
       return {
         action: permission.action,
         subject: permission.resource.resourceName,
-        condition: this.parseCondition(permission.conditions, user),
+        conditions: this.parseCondition(permission.conditions, user),
       };
     });
 
     const ability = new Ability<[Action, Subjects]>(caslPermission);
-    console.log(caslPermission);
     return ability;
   }
 
