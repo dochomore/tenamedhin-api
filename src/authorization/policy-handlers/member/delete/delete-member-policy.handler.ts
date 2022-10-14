@@ -1,10 +1,10 @@
 import { Action } from 'src/authorization/enums/action';
 import { AppAbility } from 'src/authorization/factories/ability.factory';
 import { IPolicyHandler } from 'src/authorization/interfaces/policy-handler.interface';
-import { MemberType } from 'src/constants';
+import { MemberSubject } from 'src/constants';
 
 export class DeleteMemberPolicyHandler implements IPolicyHandler {
   handle(ability: AppAbility): boolean {
-    return ability.can(Action.DELETE, MemberType);
+    return ability.can(Action.DELETE, MemberSubject);
   }
 }
