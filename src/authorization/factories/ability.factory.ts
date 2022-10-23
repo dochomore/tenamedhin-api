@@ -33,13 +33,13 @@ interface CaslPermission {
 
 @Injectable()
 export class AbilityFactory {
-  constructor(private readonly permissionServie: PermissionService) {}
+  constructor(private readonly permissionService: PermissionService) {}
 
   async create(user: any) {
     const { userId } = user;
 
     const dbPermission: Permission[] =
-      await this.permissionServie.findPermission(userId);
+      await this.permissionService.findPermission(userId);
     const caslPermission: CaslPermission[] = dbPermission.map((permission) => {
       return {
         action: permission.action,
