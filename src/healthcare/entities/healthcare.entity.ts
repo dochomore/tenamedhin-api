@@ -14,6 +14,12 @@ export class Healthcare {
   @Column()
   woredaId: string;
 
+  /**
+   * Health facility level
+   */
+  @Column()
+  level: number;
+
   @Column()
   createdBy: string;
 

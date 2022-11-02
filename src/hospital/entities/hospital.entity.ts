@@ -11,6 +11,13 @@ export class Hospital {
   @Column({ unique: true })
   code: string;
 
+  /**
+   * level of health facility
+   *
+   */
+  @Column()
+  level: number;
+
   @Column()
   woredaId: string;
 
