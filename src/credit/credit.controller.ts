@@ -45,8 +45,18 @@ export class CreditController {
   }
 
   @Get()
-  findAll() {
-    return this.creditService.findAll();
+  async findAll(@Req() req) {
+    try {
+      const ability = await this.getAbility(req)
+      const isAllowed = ability.can(Action.READ, CreditSubject);
+      if(isAllowed){
+        return this.creditService.findAll();
+      }else{
+        throw new ForbiddenException();
+      }
+    } catch (error) {
+      return new ForbiddenException();
+    }
   }
 
   @Get(':id')
