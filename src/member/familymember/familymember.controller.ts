@@ -32,7 +32,7 @@ export class FamilymemberController {
   constructor(
     private readonly familymemberService: FamilymemberService,
     private readonly abilityFactory: AbilityFactory,
-  ) {}
+  ) { }
 
   async getAbility(req) {
     return await this.abilityFactory.create(req.user);
@@ -75,8 +75,18 @@ export class FamilymemberController {
 
   @Get(':id')
   @RequirePolicies(new ReadFamilyMemberPolicyHandler())
-  findOne(@Param('id', new ParseUUIDPipe()) id: string) {
-    return this.familymemberService.findOne(id);
+  async findOne(@Req() req, @Param('id', new ParseUUIDPipe()) id: string) {
+    try {
+      const ability = await this.getAbility(req);
+      const isAllowed = ability.can(Action.READ, FamilyMemberSubject);
+      if (isAllowed) {
+        return this.familymemberService.findOne(id);
+      } else {
+        throw new ForbiddenException();
+      }
+    } catch (error) {
+      return new ForbiddenException();
+    }
   }
 
   @Patch(':id')
