@@ -7,7 +7,11 @@ import { AuthorizationService } from './authorization.service';
 import { AbilityFactory } from './factories/ability.factory';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([Permission]), PermissionModule],
+  imports: [
+    TypeOrmModule.forFeature([Permission]),
+    PermissionModule,
+    AuthorizationModule,
+  ],
   controllers: [AuthorizationController],
   providers: [AuthorizationService, AbilityFactory],
   exports: [AbilityFactory],
