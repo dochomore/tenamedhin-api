@@ -64,8 +64,19 @@ export class CreditController {
   }
 
   @Get(':id')
-  findOne(@Param('id', new ParseUUIDPipe()) id: string) {
-    return this.creditService.findOne(id);
+  @RequirePolicies(new ReadCreditPolicyHandler())
+  async findOne(@Req() req, @Param('id', new ParseUUIDPipe()) id: string) {
+    try {
+      const ability = await this.getAbility(req);
+      const isAllowed = ability.can(Action.READ, CreditSubject);
+      if (isAllowed) {
+        return this.creditService.findOne(id);
+      } else {
+        throw new ForbiddenException();
+      }
+    } catch (error) {
+      return new ForbiddenException();
+    }
   }
 
   @Patch(':id')
