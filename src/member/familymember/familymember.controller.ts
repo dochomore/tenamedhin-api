@@ -115,7 +115,17 @@ export class FamilymemberController {
 
   @RequirePolicies(new DeleteFamilyMemberPolicyHandler())
   @Delete(':id')
-  remove(@Param('id', new ParseUUIDPipe()) id: string) {
-    return this.familymemberService.remove(id);
+  async remove(@Req() req, @Param('id', new ParseUUIDPipe()) id: string) {
+    try {
+      const ability = await this.getAbility(req);
+      const isAllowed = ability.can(Action.DELETE, FamilyMemberSubject);
+      if (isAllowed) {
+        return this.familymemberService.remove(id);
+      } else {
+        throw new ForbiddenException();
+      }
+    } catch (error) {
+      return new ForbiddenException();
+    }
   }
 }
