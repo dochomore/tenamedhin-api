@@ -25,7 +25,7 @@ export class CreditController {
   constructor(
     private readonly creditService: CreditService,
     private readonly abilityFactory: AbilityFactory,
-  ) { }
+  ) {}
 
   async getAbility(req) {
     return await this.abilityFactory.create(req.user);
@@ -99,7 +99,17 @@ export class CreditController {
   }
 
   @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.creditService.remove(id);
+  async remove(@Req() req, @Param('id') id: string) {
+    try {
+      const ability = await this.getAbility(req);
+      const isAllowed = ability.can(Action.DELETE, CreditSubject);
+      if (isAllowed) {
+        return this.creditService.remove(id);
+      } else {
+        throw new ForbiddenException();
+      }
+    } catch (error) {
+      return new ForbiddenException();
+    }
   }
 }
