@@ -25,7 +25,7 @@ export class CreditController {
   constructor(
     private readonly creditService: CreditService,
     private readonly abilityFactory: AbilityFactory,
-  ) {}
+  ) { }
 
   async getAbility(req) {
     return await this.abilityFactory.create(req.user);
@@ -80,11 +80,22 @@ export class CreditController {
   }
 
   @Patch(':id')
-  update(
+  async update(
+    @Req() req,
     @Param('id', new ParseUUIDPipe()) id: string,
     @Body() updateCreditDto: UpdateCreditDto,
   ) {
-    return this.creditService.update(id, updateCreditDto);
+    try {
+      const ability = await this.getAbility(req);
+      const isAllowed = ability.can(Action.UPDATE, CreditSubject);
+      if (isAllowed) {
+        return this.creditService.update(id, updateCreditDto);
+      } else {
+        throw new ForbiddenException();
+      }
+    } catch (error) {
+      return new ForbiddenException();
+    }
   }
 
   @Delete(':id')
