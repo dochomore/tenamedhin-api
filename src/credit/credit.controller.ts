@@ -14,6 +14,7 @@ import { RequirePolicies } from 'src/authorization/decorators/check-policies.dec
 import { Action } from 'src/authorization/enums/action';
 import { AbilityFactory } from 'src/authorization/factories/ability.factory';
 import { CreateCreditPolicyHandler } from 'src/authorization/policy-handlers/credit/create/create-credit-policy.handler';
+import { ReadCreditPolicyHandler } from 'src/authorization/policy-handlers/credit/read/read-credit-policy.handler';
 import { CreditSubject } from 'src/constants';
 import { CreditService } from './credit.service';
 import { CreateCreditDto } from './dto/create-credit.dto';
@@ -47,6 +48,7 @@ export class CreditController {
   }
 
   @Get()
+  @RequirePolicies(new ReadCreditPolicyHandler())
   async findAll(@Req() req) {
     try {
       const ability = await this.getAbility(req);
