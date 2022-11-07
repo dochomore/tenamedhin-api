@@ -59,8 +59,18 @@ export class FamilymemberController {
 
   @Get()
   @RequirePolicies(new ReadFamilyMemberPolicyHandler())
-  findAll() {
-    return this.familymemberService.findAll();
+  async findAll(@Req() req) {
+    try {
+      const ability = await this.getAbility(req);
+      const isAllowed = await ability.can(Action.READ, FamilyMemberSubject);
+      if (isAllowed) {
+        return this.familymemberService.findAll();
+      } else {
+        throw new ForbiddenException();
+      }
+    } catch (error) {
+      return new ForbiddenException();
+    }
   }
 
   @Get(':id')

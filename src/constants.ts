@@ -5,3 +5,4 @@ export class Constants {}
  */
 export const MemberSubject = 'Member';
 export const CreditSubject = 'Credit';
+export const FamilyMemberSubject = 'FamilyMemberSubject';
