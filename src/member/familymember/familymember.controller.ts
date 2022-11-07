@@ -1,3 +1,4 @@
+import { subject } from '@casl/ability';
 import {
   Body,
   Controller,
@@ -32,7 +33,7 @@ export class FamilymemberController {
   constructor(
     private readonly familymemberService: FamilymemberService,
     private readonly abilityFactory: AbilityFactory,
-  ) { }
+  ) {}
 
   async getAbility(req) {
     return await this.abilityFactory.create(req.user);
@@ -91,11 +92,25 @@ export class FamilymemberController {
 
   @Patch(':id')
   @RequirePolicies(new UpdateFamilyMemberPolicyHandler())
-  update(
+  async update(
+    @Req() req,
     @Param('id', new ParseUUIDPipe()) id: string,
     @Body() updateFamilymemberDto: UpdateFamilymemberDto,
   ) {
-    return this.familymemberService.update(id, updateFamilymemberDto);
+    try {
+      const ability = await this.getAbility(req);
+      const isAllowed = ability.can(
+        Action.UPDATE,
+        subject(FamilyMemberSubject, updateFamilymemberDto),
+      );
+      if (isAllowed) {
+        return this.familymemberService.update(id, updateFamilymemberDto);
+      } else {
+        throw new ForbiddenException();
+      }
+    } catch (error) {
+      return new ForbiddenException();
+    }
   }
 
   @RequirePolicies(new DeleteFamilyMemberPolicyHandler())
