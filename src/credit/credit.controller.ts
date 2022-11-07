@@ -1,3 +1,4 @@
+import { subject } from '@casl/ability';
 import {
   Controller,
   Get,
@@ -25,7 +26,7 @@ export class CreditController {
   constructor(
     private readonly creditService: CreditService,
     private readonly abilityFactory: AbilityFactory,
-  ) {}
+  ) { }
 
   async getAbility(req) {
     return await this.abilityFactory.create(req.user);
@@ -87,7 +88,10 @@ export class CreditController {
   ) {
     try {
       const ability = await this.getAbility(req);
-      const isAllowed = ability.can(Action.UPDATE, CreditSubject);
+      const isAllowed = ability.can(
+        Action.UPDATE,
+        subject(CreditSubject, updateCreditDto),
+      );
       if (isAllowed) {
         return this.creditService.update(id, updateCreditDto);
       } else {
